@@ -1052,11 +1052,11 @@ git commit -m "feat(skills): spec-reviewer-prompt — add optional SDD complianc
 
 For feature-level checkpoints (not every single verification), also run the 5-dimension audit canonical at `skills/harness-engineering/SKILL.md`:
 
-1. Feedback coverage — every new exported function has tests + integration tests for cross-module calls.
-2. Wiring integrity — every new method has at least one caller.
-3. Latent / Deterministic split — no deterministic logic left to inference.
-4. Test health — no flaky tests.
-5. Flywheel health — session learnings captured via `skills/capturing-knowhow/SKILL.md`.
+1. **Feedforward Coverage** — every module has a Skill / Steering / Spec interface contract defining its design intent.
+2. **Feedback Coverage** — every exported function has a unit test; every `CP-xx` has at least one Property-Based Test.
+3. **Wiring Integrity** — every new method has a caller wired per the Wiring Matrix at the correct time and with the correct arguments.
+4. **Latent vs Deterministic Boundary** — deterministic logic (validation, wiring, state machine transitions) is not left to agent inference.
+5. **Feedback Flywheel Health** — session-end KnowHow capture (`skills/capturing-knowhow/SKILL.md`) and related hooks are active; KnowHow accumulates and feeds back into Skills / Steering / checklists.
 
 This audit is the completion gate for a whole spec / phase, not individual tasks. Individual tasks still use the Iron Law above.
 ```
