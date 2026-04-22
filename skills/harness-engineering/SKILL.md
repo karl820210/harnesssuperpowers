@@ -5,7 +5,7 @@ description: Harness Engineering framework — audit, diagnose, and improve an A
 
 # Harness Engineering Framework
 
-This skill integrates concepts from four core references — Martin Fowler, Garry Tan (YC), the Flywheel framework, and Static → Dynamic Decomposition — into an actionable audit and improvement process.
+This skill integrates concepts from six core references — Martin Fowler, Garry Tan (YC), the Flywheel framework, Static → Dynamic Decomposition, Kief Morris's "On the Loop", and Anthropic's "Building Effective Agents" — into an actionable audit and improvement process (see the References section for details).
 
 ## Core Concepts
 
