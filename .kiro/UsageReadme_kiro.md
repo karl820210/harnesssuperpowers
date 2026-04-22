@@ -2,40 +2,51 @@
 
 此專案提供一套可複用的 AI 協作模組（steering、hooks、skills），讓你快速為新專案建立 Kiro agent 的協作規範。
 
-## 模組清單
+## 架構總覽（Kiro 端）
 
-### Steering（自動載入的規則）
+`.kiro/` 現在是 **Superpowers plugin 的 Kiro adapter 層**。大多 skill / steering 改為 pointer，指向 Superpowers plugin 內的 canonical 檔案（cross-IDE 共用）。Kiro 原生 discovery（`inclusion`、`fileMatch`、`agentStop` 等）仍保留。
 
-| 檔案 | 載入方式 | 用途 |
-|------|----------|------|
-| `steering/language.md` | always | 指定 agent 回覆語言（預設：繁體中文） |
-| `steering/environment.md` | always | 本機開發環境設定（Python 版本、OS、依賴）— 匯入後必須重寫 |
-| `steering/documentation-rules.md` | always | Commit 時自動更新 CHANGELOG 和 DEV_NOTES 的規則 |
-| `steering/knowhow-sync-rules.md` | always | 開發中發現的知識點自動同步到 KnowHow / Skill / Steering |
-| `steering/skill-routing.md` | always | Skill 路由表 — 根據使用者意圖導向正確的 skill，含優先級和紀律分類 |
-| `steering/sdd-bdd-tdd-workflow.md` | fileMatch | SDD→BDD→TDD 三階段開發流程（讀到測試檔或 spec 文件時載入） |
+### Skills — adapter 對照
 
-### Hooks（自動觸發的動作）
+| Kiro skill | 型態 | Canonical |
+|---|---|---|
+| `skills/brainstorming/` | adapter | `skills/brainstorming/` (plugin) |
+| `skills/systematic-debugging/` | adapter | `skills/systematic-debugging/` (plugin) |
+| `skills/subagent-driven-development/` | adapter | `skills/subagent-driven-development/` (plugin) |
+| `skills/harness-engineering/` | adapter | `skills/harness-engineering/` (plugin) |
+| `skills/sdd-scan/` | adapter | `skills/sdd-scan/` (plugin) |
+| `skills/git-worktree/` | **Kiro-only**（composite of plugin `using-git-worktrees` + `finishing-a-development-branch`） | — |
+| `skills/skill-creator/` | **Kiro-only**（無 upstream 對應） | — |
+| `skills/kiro-framework-audit/` | **Kiro-only**（審計 `.kiro/` 自身） | — |
 
-| 檔案 | 觸發時機 | 用途 |
-|------|----------|------|
-| `hooks/pre-commit-check.kiro.hook` | `preToolUse`（shell） | git commit 前提醒更新 CHANGELOG 和 DEV_NOTES |
-| `hooks/knowhow-sync.kiro.hook` | `agentStop` | agent 執行完畢後，自動檢查是否有新知識點需同步 |
-| `hooks/spec-sdd-check.kiro.hook` | `fileEdited`（spec md） | 編輯 spec 文件時，提醒檢查 SDD 合規（CP-xx、介面契約、Wiring Matrix） |
+### Steering — pointer + Kiro-only
 
-### Skills（領域知識與工作流程）
+| Kiro steering | 型態 | Canonical |
+|---|---|---|
+| `steering/language.md` | Kiro-only override | — |
+| `steering/environment.md` | **Kiro-only**（專案環境；匯入後重寫） | — |
+| `steering/documentation-rules.md` | **Kiro-only**（commit 時文件規則） | — |
+| `steering/knowhow-sync-rules.md` | pointer | `skills/capturing-knowhow/SKILL.md` |
+| `steering/skill-routing.md` | **Kiro-only**（Kiro 側 skill 路由表） | — |
+| `steering/sdd-bdd-tdd-workflow.md` | pointer | `skills/sdd-workflow/SKILL.md` + `skills/harness-engineering/SKILL.md` |
 
-| 檔案 | 用途 |
-|------|------|
-| `skills/brainstorming/` | 對話式需求探索與設計 — 一次一個問題釐清需求，分段呈現設計，含 Visual Companion 視覺化工具 |
-| `skills/systematic-debugging/` | 系統化除錯 — 4 階段根因分析（Reproduce → Isolate → Understand → Fix），含平行派遣、Defense in Depth |
-| `skills/subagent-driven-development/` | 子代理驅動開發 — 每個 task 派遣新 sub-agent，搭配 two-stage review（SDD 合規 → 品質），含 3 個 prompt 模板 + code review 紀律 |
-| `skills/git-worktree/` | Git Worktree 隔離開發（可選）— worktree 建立、安全驗證、baseline 測試、分支完成（merge/PR/discard）的完整生命週期。不使用 worktree 工作流時可刪除此 skill |
-| `skills/harness-engineering/` | Harness Engineering 審計框架 — 審計、診斷、改善 AI agent 的駕馭架構 |
-| `skills/sdd-scan/` | SDD 合規掃描 — run all tasks 前掃描 spec 是否符合 SDD 規則 |
-| `skills/kiro-framework-audit/` | Kiro 框架健康度審計 — 掃描 steering/hooks/skills 的品質、context budget、機制分界 |
+### Hooks
 
-> `skills/skill-creator/` 是 Kiro 內建的技能建立工具，不屬於本模組的可複用範圍。
+| Kiro hook | 觸發 | 行為 |
+|---|---|---|
+| `hooks/spec-sdd-check.kiro.hook` | `fileEdited` (spec md) | 提醒 `superpowers:sdd-scan` |
+| `hooks/knowhow-sync.kiro.hook` | `agentStop` | 提醒 `superpowers:capturing-knowhow` |
+| `hooks/pre-commit-check.kiro.hook` | `preToolUse`（shell） | disabled（保留，留待專案自行 enable） |
+
+### Canonical 流程（跨 IDE）
+
+1. Brainstorming（`skills/brainstorming/`）→ 設計批准
+2. 若採用 SDD：建立 spec（Kiro `.kiro/specs/` 或跨 IDE `docs/superpowers/specs/`）
+3. `skills/writing-plans/` 產 plan（Kiro 若用 Spec 流程此步可省）
+4. `skills/subagent-driven-development/` 執行 + two-stage review
+5. Session 結束 → `skills/capturing-knowhow/`
+
+詳見 plugin 端 `docs/harness-extension-guide.md`。
 
 ## 使用方式
 
