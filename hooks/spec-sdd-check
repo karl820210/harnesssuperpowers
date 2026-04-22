@@ -22,9 +22,10 @@ is_spec_path() {
 # (safe — just a hint; rare on real runs because both IDEs supply context).
 changed_file="${CURSOR_CHANGED_FILE:-}"
 if [ -z "$changed_file" ] && [ ! -t 0 ]; then
-    # stdin has piped data — best-effort extract file_path from JSON
+    # stdin has piped data — best-effort extract first file_path from JSON.
+    # Use sed -n with a print flag so no-match exits 0 (safe under pipefail).
     stdin_data=$(cat || true)
-    changed_file=$(printf '%s' "$stdin_data" | grep -oE '"file_path"[[:space:]]*:[[:space:]]*"[^"]+"' | head -n1 | sed -E 's/.*"([^"]+)"$/\1/')
+    changed_file=$(printf '%s' "$stdin_data" | sed -nE 's/.*"file_path"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p' | head -n1)
 fi
 
 if [ -n "$changed_file" ] && ! is_spec_path "$changed_file"; then
