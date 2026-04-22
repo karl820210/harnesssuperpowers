@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "KnowHow 自動同步",
+  "description": "當 agent 執行完成時，自動檢查本次工作是否產生了新的知識點，若有則同步到對應的 KnowHow 文件、Skill 和 Steering。",
+  "version": "1",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "回顧本次對話中的所有修改。是否有符合以下條件的新知識點？\n1. 修了 bug，根因是之前不知道的限制或行為\n2. 使用者指出了錯誤認知\n3. 嘗試某方案失敗後換了方案\n4. 發現了未文件化的行為\n5. 調整了設計決策\n\n如果有，按照 .kiro/steering/knowhow-sync-rules.md 的映射表，將知識點同步到：\n- 對應的 KnowHow 文件（.kiro/skills/docs/魚機製作KnowHow.md 或 遊戲演出KnowHow.md）\n- 對應的 Skill SKILL.md（若影響規格）\n- 對應的 Steering .md（若影響慣例）\n- 開發自檢清單（若是可重複檢查的項目）\n\n如果本次沒有新知識點（純 typo、格式調整、已知問題重複修正），則不需要任何操作。"
+  }
+}

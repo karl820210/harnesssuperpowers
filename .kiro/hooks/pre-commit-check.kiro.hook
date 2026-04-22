@@ -1,0 +1,16 @@
+{
+  "enabled": false,
+  "name": "Pre-commit documentation check",
+  "description": "在執行 git commit 前，提醒 agent 檢查是否已更新 docs/CHANGELOG.md 和 docs/DEV_NOTES.md。",
+  "version": "1.0.0",
+  "when": {
+    "type": "preToolUse",
+    "toolTypes": [
+      "shell"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "如果這是 git commit 相關指令，先確認：(1) docs/CHANGELOG.md 是否已新增本次變更紀錄？(2) 若涉及架構決策或新陷阱，docs/DEV_NOTES.md 是否已更新？未完成則先更新文件再 commit。非 git commit 指令則直接執行。"
+  }
+}
