@@ -1,0 +1,104 @@
+---
+name: bootstrapping-harness
+description: Scaffold a project's Layer 2 harness structure. Use when a new workspace adopts Superpowers and needs docs/superpowers/{specs,plans,knowhow,knowhow-map.md,wiring-matrix.md}, scripts/evaluators/ placeholders, and an output-language convention. Interactive — asks the user which language KnowHow should be written in and which initial knowledge areas to seed.
+---
+
+# Bootstrapping Harness
+
+One-shot scaffolder for the project-level (Layer 2) Harness structure.
+
+## When to Use
+
+- A new workspace adopts Superpowers and has no `docs/superpowers/` yet.
+- The existing `docs/superpowers/` is missing `knowhow-map.md` or `wiring-matrix.md`.
+- User asks: "set up superpowers for this project", "initialize harness", or similar.
+
+Do NOT use when the structure is already complete and matches the Discovery Contract.
+
+## The Layer 2 Shape
+
+```
+<workspace>/
+├── docs/
+│   └── superpowers/
+│       ├── README.md           ← project conventions (language, owners, etc.)
+│       ├── specs/              ← feature specs
+│       ├── plans/              ← implementation plans
+│       ├── knowhow/            ← long-lived KnowHow files
+│       ├── knowhow-map.md      ← knowledge area → file/skill/steering mapping
+│       └── wiring-matrix.md    ← project-wide module wiring (optional; per-spec matrices preferred)
+└── scripts/
+    └── evaluators/             ← Mode A deterministic evaluators (placeholder)
+        └── README.md           ← when to add Mode A script, when Mode B is enough
+```
+
+## The Procedure
+
+**Step 1 — Discover existing state.**
+
+Check each expected path. For anything that exists, do not overwrite; report it and move on.
+
+**Step 2 — Ask language convention (interactive).**
+
+Ask the user exactly this (one question only):
+
+> "What language should KnowHow / knowhow-map / wiring-matrix files be written in? (English / Traditional Chinese / Simplified Chinese / other — please specify)"
+
+Record answer in `docs/superpowers/README.md` as:
+
+```markdown
+## Output Language Convention
+
+- Specs / plans: follow conversation language (defaults to steering layer)
+- KnowHow / knowhow-map / wiring-matrix: <user answer>
+- Runtime evaluator scripts: English (convention)
+```
+
+**Step 3 — Ask initial knowledge areas (interactive, optional).**
+
+Ask:
+
+> "What are the 3–5 main knowledge areas in this project? (e.g. frontend rendering, backend API, data pipeline; can skip)"
+
+If the user lists areas, seed `knowhow-map.md` with matching rows. Otherwise seed the template header only.
+
+**Step 4 — Materialize from templates.**
+
+Copy each template from `skills/bootstrapping-harness/templates/` to the target path, replacing `<PLACEHOLDER>` tokens with user answers.
+
+- `templates/README.md`        → `docs/superpowers/README.md`
+- `templates/knowhow-map.md`   → `docs/superpowers/knowhow-map.md`
+- `templates/wiring-matrix.md` → `docs/superpowers/wiring-matrix.md`
+
+Create empty folders `docs/superpowers/specs/`, `docs/superpowers/plans/`, `docs/superpowers/knowhow/`, `scripts/evaluators/`, each with a `.gitkeep`.
+
+Create `scripts/evaluators/README.md` with:
+
+```markdown
+# Runtime Evaluators (Layer 3)
+
+Put deterministic evaluators here (Mode A). Typical layout:
+
+- `check-<invariant>.sh` — shell invariant check
+- `validate-<contract>.py` — schema / contract check
+
+Prefer Mode B (agent-native: shell, MCP, subagent) while exploring.
+Promote to Mode A once a check is run repeatedly and the rule is stable.
+
+See `skills/harness-engineering/SKILL.md` and `docs/harness-extension-guide.md`.
+```
+
+**Step 5 — Confirm & summarize.**
+
+Report what was created (paths + one-line description each). Ask the user to commit.
+
+## Non-Goals
+
+- Do NOT install IDE-specific files (`.claude-plugin/`, `.cursor/rules/`, `.kiro/`). Those are Layer 1 (shipped with the plugin) or per-IDE concerns.
+- Do NOT write project-specific skills. User should author those on demand.
+
+## Related Skills
+
+- `skills/capturing-knowhow/SKILL.md` — uses the `knowhow-map.md` this skill seeds.
+- `skills/harness-engineering/SKILL.md` — Wiring Matrix canonical template.
+- `skills/writing-plans/SKILL.md` — consumes `docs/superpowers/plans/`.
