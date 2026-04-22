@@ -130,6 +130,18 @@ From 24 failure memories:
 - Implications of success
 - ANY communication suggesting completion/correctness
 
+## Integration with Harness 5-Dimension Audit
+
+For feature-level checkpoints (not every single verification), also run the 5-dimension audit canonical at `skills/harness-engineering/SKILL.md`:
+
+1. **Feedforward Coverage** — every module has a Skill / Steering / Spec interface contract defining its design intent.
+2. **Feedback Coverage** — every exported function has a unit test; every `CP-xx` has at least one Property-Based Test.
+3. **Wiring Integrity** — every new method has a caller wired per the Wiring Matrix at the correct time and with the correct arguments.
+4. **Latent vs Deterministic Boundary** — deterministic logic (validation, wiring, state machine transitions) is not left to agent inference.
+5. **Feedback Flywheel Health** — session-end KnowHow capture (`skills/capturing-knowhow/SKILL.md`) and related hooks are active; KnowHow accumulates and feeds back into Skills / Steering / checklists.
+
+This audit is the completion gate for a whole spec / phase, not individual tasks. Individual tasks still use the Iron Law above.
+
 ## The Bottom Line
 
 **No shortcuts for verification.**
