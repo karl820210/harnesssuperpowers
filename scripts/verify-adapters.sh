@@ -42,7 +42,7 @@ check_adapter() {
 
     # Parse canonical pointer from line like: "> **Canonical**: `skills/<name>/SKILL.md`"
     local canonical_rel
-    canonical_rel=$(grep -E '^\> \*\*Canonical\*\*:' "$adapter_file" | head -n1 \
+    canonical_rel=$(grep -E '^> \*\*Canonical\*\*:' "$adapter_file" | head -n1 \
         | sed -E 's/.*`([^`]+)`.*/\1/')
     if [ -z "$canonical_rel" ]; then
         echo "FAIL: $adapter_file — cannot find canonical pointer line" >&2
