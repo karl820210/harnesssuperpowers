@@ -33,6 +33,15 @@ Before defining tasks, map out which files will be created or modified and what 
 
 This structure informs the task decomposition. Each task should produce self-contained changes that make sense independently.
 
+## Correctness Properties & Wiring (optional, when SDD applies)
+
+If the spec was produced via `skills/sdd-workflow/SKILL.md`, the plan must honor two extra contracts:
+
+- **Correctness Properties** — Requirements section lists `CP-<NN>: <invariant>` items. Each implementation task that touches a CP must include a PBT step, not only example-based tests. Reference the CP ID in the task.
+- **Wiring Matrix** — Design section lists caller → callee → timing → arg source. For every new exported function whose row in the matrix points at an external caller, follow the implementation task with a *wiring task* whose steps integrate the new function into that caller (per `skills/harness-engineering/SKILL.md`).
+
+If the spec has neither CP-xx nor a Wiring Matrix, this section is a no-op — proceed with the standard TDD-shaped tasks below.
+
 ## Bite-Sized Task Granularity
 
 **Each step is one action (2-5 minutes):**
@@ -128,6 +137,8 @@ After writing the complete plan, look at the spec with fresh eyes and check the 
 **2. Placeholder scan:** Search your plan for red flags — any of the patterns from the "No Placeholders" section above. Fix them.
 
 **3. Type consistency:** Do the types, method signatures, and property names you used in later tasks match what you defined in earlier tasks? A function called `clearLayers()` in Task 3 but `clearFullLayers()` in Task 7 is a bug.
+
+**4. SDD contract coverage (only if CP-xx or Wiring Matrix exist):** For each CP-xx in the spec, point to the task and the PBT step covering it. For each Wiring Matrix row whose callee is newly introduced in this plan, confirm a wiring task integrates it. List gaps and add tasks.
 
 If you find issues, fix them inline. No need to re-review — just fix and move on. If you find a spec requirement with no task, add the task.
 
