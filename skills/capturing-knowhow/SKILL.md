@@ -82,6 +82,7 @@ Do not invent updates. If no target file exists, say so and suggest running `ski
 
 - `skills/sdd-workflow/SKILL.md` — the Flywheel closes when captured KnowHow feeds new CP-xx or Wiring Matrix entries in the next spec.
 - `skills/harness-engineering/SKILL.md` — Flywheel concept canonical.
+- `skills/writing-plans/SKILL.md` — new plans should consult relevant KnowHow entries before authoring tasks.
 - `skills/bootstrapping-harness/SKILL.md` — creates the KnowHow map + initial files.
 - `skills/systematic-debugging/SKILL.md` — common upstream of capturable learnings.
 
