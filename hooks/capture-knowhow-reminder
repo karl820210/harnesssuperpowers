@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# capture-knowhow-reminder — Stop / agentStop reminder: nudge the agent to
+# consider running superpowers:capturing-knowhow at session end.
+
+set -euo pipefail
+
+context='<system_reminder>Session is ending. If this session produced new KnowHow (a bug root-caused to an undocumented constraint, a mental model the user corrected, a failed approach with a lesson, an undocumented API behavior, or a design decision shift), invoke `superpowers:capturing-knowhow` (or `/capture-knowhow`) before you finish. Typo-only / format-only sessions do not need it.</system_reminder>'
+
+if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
+    printf '{"additional_context":"%s"}\n' "$context"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -z "${COPILOT_CLI:-}" ]; then
+    printf '{"hookSpecificOutput":{"hookEventName":"Stop","additionalContext":"%s"}}\n' "$context"
+else
+    printf '{"additionalContext":"%s"}\n' "$context"
+fi
+
+exit 0
