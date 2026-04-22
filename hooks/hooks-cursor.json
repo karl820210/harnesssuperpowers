@@ -5,6 +5,18 @@
       {
         "command": "./hooks/session-start"
       }
+    ],
+    "onAfterFileChange": [
+      {
+        "command": "./hooks/run-hook.cmd",
+        "args": ["spec-sdd-check"]
+      }
+    ],
+    "onStop": [
+      {
+        "command": "./hooks/run-hook.cmd",
+        "args": ["capture-knowhow-reminder"]
+      }
     ]
   }
 }
