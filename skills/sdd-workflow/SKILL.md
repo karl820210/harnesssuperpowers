@@ -105,11 +105,11 @@ Every CP-xx gets at least one PBT in addition to example-based tests.
 
 Every phase-ending task should invoke the 5-dimension audit from `skills/harness-engineering/SKILL.md`:
 
-1. **Feedback coverage** — every new exported function has a unit test; cross-module calls have integration tests.
-2. **Wiring integrity** — every new method has at least one caller.
-3. **Latent / Deterministic split** — no deterministic logic left to agent inference.
-4. **Test health** — no flaky tests.
-5. **Flywheel health** — new KnowHow captured if applicable.
+1. **Feedforward Coverage** — every module has a Skill / Steering / Spec interface contract defining its design intent.
+2. **Feedback Coverage** — every exported function has a unit test; every `CP-xx` has at least one Property-Based Test.
+3. **Wiring Integrity** — every new method has a caller wired per the Wiring Matrix at the correct time and with the correct arguments.
+4. **Latent vs Deterministic Boundary** — deterministic logic (validation, wiring, state machine transitions) is not left to agent inference.
+5. **Feedback Flywheel Health** — session-end KnowHow capture and related hooks are active; KnowHow accumulates and feeds back into Skills / Steering / checklists.
 
 See `skills/verification-before-completion/SKILL.md` for the completion gate.
 
