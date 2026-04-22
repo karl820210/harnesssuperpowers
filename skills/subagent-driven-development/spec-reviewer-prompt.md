@@ -53,6 +53,13 @@ Task tool (general-purpose):
     - Did they solve the wrong problem?
     - Did they implement the right feature but wrong way?
 
+    **SDD compliance (only if the spec uses CP-xx / Wiring Matrix):**
+    - Does every CP-<NN> in the requirements have a corresponding PBT (not just example tests)?
+    - Does the Wiring Matrix reflect the code? For each row whose callee was newly introduced in this task, is the callee actually invoked at the specified caller and timing?
+    - Are preconditions / postconditions from the design honored at call sites?
+
+    If the spec has no SDD markers, skip this section and proceed with the three checks above.
+
     **Verify by reading code, not by trusting report.**
 
     Report:
