@@ -1,17 +1,19 @@
 {
   "enabled": true,
   "name": "Spec SDD 合規檢查",
-  "description": "修改 .kiro/specs/ 下的 md 檔案時，提醒檢查 sdd-bdd-tdd-workflow steering 的 SDD 階段要求：requirements 需有 CP-xx 正確性屬性、design 需有 precondition/postcondition 介面契約。",
-  "version": "1",
+  "description": "Spec 檔案被編輯時，提醒執行 superpowers:sdd-scan（canonical：skills/sdd-scan/SKILL.md）",
+  "version": "2",
   "when": {
     "type": "fileEdited",
     "patterns": [
       ".kiro/specs/**/requirements.md",
-      ".kiro/specs/**/design.md"
+      ".kiro/specs/**/design.md",
+      ".kiro/specs/**/tasks.md",
+      "docs/superpowers/specs/**/*.md"
     ]
   },
   "then": {
     "type": "askAgent",
-    "prompt": "你剛修改了 spec 文件。根據 sdd-bdd-tdd-workflow.md steering 規則，請確認：\n1. 若修改了 requirements.md — 是否包含 CP-{編號} 格式的正確性屬性？\n2. 若修改了 design.md — (a) 新增/修改的公開函式是否標註了 precondition/postcondition？(b) 是否包含接線矩陣（Wiring Matrix）段落，列出新增方法的呼叫者、呼叫時機、參數來源？(c) 每個新增的計算步驟是否明確標示為 Latent（需要模型判斷）或 Deterministic（確定性計算）？確定性步驟不應依賴 agent 推理。\n3. 若修改了 tasks.md — (a) 實作任務是否包含 BDD 場景和 TDD 子任務結構？(b) 新增 exported function 的任務後面是否有對應的接線任務？\n如果有缺漏，請立即補上。"
+    "prompt": "Spec 檔案剛被編輯。請考慮執行 `superpowers:sdd-scan`（或 `/scan-spec`），檢查：CP-xx Correctness Properties、precondition/postcondition、Wiring Matrix、BDD/TDD 任務結構。若本次修改純屬排版/錯字，可略過。Canonical 內容在 `skills/sdd-scan/SKILL.md`。"
   }
 }
