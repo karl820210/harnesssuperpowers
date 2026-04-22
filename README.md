@@ -145,9 +145,20 @@ Start a new session in your chosen platform and ask for something that should tr
 - **finishing-a-development-branch** - Merge/PR decision workflow
 - **subagent-driven-development** - Fast iteration with two-stage review (spec compliance, then code quality)
 
+**Harness Engineering & SDD**
+- **harness-engineering** - Framework audit (5-dimension coverage, Wiring Matrix, Latent/Deterministic boundary, Feedback Flywheel)
+- **sdd-workflow** - SDD → BDD → TDD overview for structured feature work (CP-xx Correctness Properties)
+- **sdd-scan** - Compliance scan on specs (CP-xx, Wiring Matrix, BDD/TDD task structure)
+- **capturing-knowhow** - Capture session learnings into a project KnowHow base
+- **bootstrapping-harness** - Scaffold a project's Layer 2 harness extension (`docs/superpowers/`)
+
 **Meta**
 - **writing-skills** - Create new skills following best practices (includes testing methodology)
 - **using-superpowers** - Introduction to the skills system
+
+### Extending into Your Project
+
+This plugin ships generic core skills; your project grows a Layer 2 extension (`docs/superpowers/`) and optional Layer 3 evaluators. See [`docs/harness-extension-guide.md`](docs/harness-extension-guide.md) for the scaffolding procedure.
 
 ## Philosophy
 
