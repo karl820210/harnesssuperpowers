@@ -54,9 +54,9 @@ Record answer in `docs/superpowers/README.md` as:
 - Runtime evaluator scripts: English (convention)
 ```
 
-**Step 2.5 — Install always-on steering/rules (optional but recommended).**
+**Step 2.5 — Install always-on steering/rules (required).**
 
-Create always-on policy files so the agent has stable defaults in a new workspace (especially when hook injection is unreliable):
+Create always-on policy files so the agent has stable defaults in a new workspace (especially when hook injection is unreliable). This step is mandatory for a new workspace adopting this harness.
 
 - Cursor: `.cursor/rules/harnesssuperpowers-language.md` (always-on rule)
 - Kiro: `.kiro/steering/language.md` (inclusion: always)
@@ -70,7 +70,7 @@ Both should set:
 
 If these files already exist, do not overwrite—report and move on.
 
-Also consider installing these always-on, **project-scoped** policies:
+Also install these always-on, **project-scoped** policies:
 
 - Environment facts (project must rewrite immediately):
   - Cursor: `.cursor/rules/harnesssuperpowers-environment.md`
@@ -95,12 +95,10 @@ Copy each template from `skills/bootstrapping-harness/templates/` to the target 
 - `templates/knowhow-map.md`   → `docs/superpowers/knowhow-map.md`
 - `templates/wiring-matrix.md` → `docs/superpowers/wiring-matrix.md`
 
-If creating language steering, also copy:
+Always copy (unless target already exists):
 
 - `templates/cursor-language-rule.md` → `.cursor/rules/harnesssuperpowers-language.md`
 - `templates/kiro-language-steering.md` → `.kiro/steering/language.md`
-
-If creating environment/docs steering, also copy:
 
 - `templates/cursor-environment-rule.md` → `.cursor/rules/harnesssuperpowers-environment.md`
 - `templates/kiro-environment-steering.md` → `.kiro/steering/environment.md`
@@ -131,7 +129,7 @@ Report what was created (paths + one-line description each). Ask the user to com
 
 ## Non-Goals
 
-- Do NOT install IDE-specific files broadly. Exception: the optional always-on steering/rules in Step 2.5 (`.cursor/rules/` and `.kiro/steering/*`) exists to make new workspaces consistent when hook injection is unreliable.
+- Do NOT install IDE-specific files broadly. Exception: the required always-on steering/rules in Step 2.5 (`.cursor/rules/` and `.kiro/steering/*`) exists to make new workspaces consistent when hook injection is unreliable.
 - Do NOT write project-specific skills. User should author those on demand.
 
 ## Related Skills
