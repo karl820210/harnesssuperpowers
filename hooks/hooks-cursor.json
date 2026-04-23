@@ -3,26 +3,22 @@
   "hooks": {
     "sessionStart": [
       {
-        "command": "cmd",
-        "args": ["/c", "%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd", "session-start"]
+        "command": "cmd /c \"%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd\" session-start"
       }
     ],
     "afterFileEdit": [
       {
-        "command": "cmd",
-        "args": ["/c", "%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd", "spec-sdd-check"]
+        "command": "cmd /c \"%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd\" spec-sdd-check"
       }
     ],
     "afterTabFileEdit": [
       {
-        "command": "cmd",
-        "args": ["/c", "%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd", "spec-sdd-check"]
+        "command": "cmd /c \"%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd\" spec-sdd-check"
       }
     ],
     "stop": [
       {
-        "command": "cmd",
-        "args": ["/c", "%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd", "capture-knowhow-reminder"]
+        "command": "cmd /c \"%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd\" capture-knowhow-reminder"
       }
     ]
   }
