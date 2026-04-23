@@ -1,0 +1,34 @@
+---
+description: "HarnessSuperpowers reminders — rule fallback when Cursor hooks injection is unreliable."
+---
+
+# HarnessSuperpowers — Reminders (Cursor rule fallback)
+
+This rule exists because Cursor hook-based `additional_context` injection may be unreliable or invisible in some builds. Treat this file as the always-on safety net.
+
+## Spec edit reminder (SDD)
+
+If you edited any spec markdown (any file under `docs/**/specs/**.md` or `.kiro/specs/**.md`), before continuing implementation, run:
+
+- `/scan-spec <spec-name>` (preferred) or invoke `superpowers:sdd-scan`
+
+Only skip if the edit was purely cosmetic (typo/format) and does not affect requirements/design/tasks.
+
+## Session-end reminder (Flywheel)
+
+Before you finish a work session, ask:
+
+- Did we learn anything worth capturing as stable KnowHow?
+
+If yes, run:
+
+- `/capture-knowhow` or invoke `superpowers:capturing-knowhow`
+
+Skip if this session was typo-only / formatting-only.
+
+## New project startup
+
+In a brand-new workspace, start by invoking:
+
+- `superpowers:getting-started`
+

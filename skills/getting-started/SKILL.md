@@ -60,6 +60,10 @@ Implementation note: on Windows, use a stable path to the plugin hook runner. Pr
 
 - `cmd /c "%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd" <hook-name>`
 
+If hooks injection is unreliable in your Cursor build, install the rule fallback:
+
+- `.cursor/rules/harnesssuperpowers-reminders.md` (this plugin ships it)
+
 ### Claude Code
 
 Claude Code hooks are configured via `hooks/hooks.json` (plugin-side). No project action required.
