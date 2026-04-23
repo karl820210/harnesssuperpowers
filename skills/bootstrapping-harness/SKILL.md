@@ -54,9 +54,9 @@ Record answer in `docs/superpowers/README.md` as:
 - Runtime evaluator scripts: English (convention)
 ```
 
-**Step 2.5 — Install always-on language steering (optional but recommended).**
+**Step 2.5 — Install always-on steering/rules (optional but recommended).**
 
-Create an always-on language policy file so the agent has a stable default in a new workspace:
+Create always-on policy files so the agent has stable defaults in a new workspace (especially when hook injection is unreliable):
 
 - Cursor: `.cursor/rules/harnesssuperpowers-language.md` (always-on rule)
 - Kiro: `.kiro/steering/language.md` (inclusion: always)
@@ -69,6 +69,15 @@ Both should set:
 - Core plugin skill content: English (do not rewrite).
 
 If these files already exist, do not overwrite—report and move on.
+
+Also consider installing these always-on, **project-scoped** policies:
+
+- Environment facts (project must rewrite immediately):
+  - Cursor: `.cursor/rules/harnesssuperpowers-environment.md`
+  - Kiro: `.kiro/steering/environment.md`
+- Documentation discipline (commit-time rules; adapt to your repo):
+  - Cursor: `.cursor/rules/harnesssuperpowers-documentation-rules.md`
+  - Kiro: `.kiro/steering/documentation-rules.md`
 
 **Step 3 — Ask initial knowledge areas (interactive, optional).**
 
@@ -90,6 +99,13 @@ If creating language steering, also copy:
 
 - `templates/cursor-language-rule.md` → `.cursor/rules/harnesssuperpowers-language.md`
 - `templates/kiro-language-steering.md` → `.kiro/steering/language.md`
+
+If creating environment/docs steering, also copy:
+
+- `templates/cursor-environment-rule.md` → `.cursor/rules/harnesssuperpowers-environment.md`
+- `templates/kiro-environment-steering.md` → `.kiro/steering/environment.md`
+- `templates/cursor-documentation-rules-rule.md` → `.cursor/rules/harnesssuperpowers-documentation-rules.md`
+- `templates/kiro-documentation-rules-steering.md` → `.kiro/steering/documentation-rules.md`
 
 Create empty folders `docs/superpowers/specs/`, `docs/superpowers/plans/`, `docs/superpowers/knowhow/`, `scripts/evaluators/`, each with a `.gitkeep`.
 
@@ -115,7 +131,7 @@ Report what was created (paths + one-line description each). Ask the user to com
 
 ## Non-Goals
 
-- Do NOT install IDE-specific files broadly. Exception: the optional always-on language steering in Step 2.5 (`.cursor/rules/` and `.kiro/steering/language.md`) exists to make new workspaces consistent when hook injection is unreliable.
+- Do NOT install IDE-specific files broadly. Exception: the optional always-on steering/rules in Step 2.5 (`.cursor/rules/` and `.kiro/steering/*`) exists to make new workspaces consistent when hook injection is unreliable.
 - Do NOT write project-specific skills. User should author those on demand.
 
 ## Related Skills
