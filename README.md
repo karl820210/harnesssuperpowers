@@ -105,6 +105,13 @@ gemini extensions update superpowers
 
 Start a new session in your chosen platform and ask for something that should trigger a skill (for example, "help me plan this feature" or "let's debug this issue"). The agent should automatically invoke the relevant superpowers skill.
 
+### New Project Quickstart
+
+In a brand-new project workspace:
+
+1. Invoke `getting-started` to bootstrap Layer 2 (`docs/superpowers/`) and run one full workflow loop.
+2. (Optional, Cursor) Enable hooks via project `.cursor/hooks.json` or user `%USERPROFILE%/.cursor/hooks.json` so session reminders (scan-spec / capture-knowhow) are injected automatically.
+
 ## The Basic Workflow
 
 1. **brainstorming** - Activates before writing code. Refines rough ideas through questions, explores alternatives, presents design in sections for validation. Saves design document.
