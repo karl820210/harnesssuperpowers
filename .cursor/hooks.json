@@ -4,25 +4,25 @@
     "sessionStart": [
       {
         "command": "cmd",
-        "args": ["/c", "hooks\\run-hook.cmd", "session-start"]
+        "args": ["/c", "%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd", "session-start"]
       }
     ],
     "afterFileEdit": [
       {
         "command": "cmd",
-        "args": ["/c", "hooks\\run-hook.cmd", "spec-sdd-check"]
+        "args": ["/c", "%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd", "spec-sdd-check"]
       }
     ],
     "afterTabFileEdit": [
       {
         "command": "cmd",
-        "args": ["/c", "hooks\\run-hook.cmd", "spec-sdd-check"]
+        "args": ["/c", "%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd", "spec-sdd-check"]
       }
     ],
     "stop": [
       {
         "command": "cmd",
-        "args": ["/c", "hooks\\run-hook.cmd", "capture-knowhow-reminder"]
+        "args": ["/c", "%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd", "capture-knowhow-reminder"]
       }
     ]
   }
