@@ -11,7 +11,7 @@ Help the user start using Superpowers effectively **in a brand-new project** by 
 
 ## Default Assumptions
 
-- Skills/commands are installed (e.g. Cursor: `/add-plugin superpowers`).
+- Skills/commands are installed (e.g. Cursor: `/add-plugin harnesssuperpowers`).
 - The user wants **project-specific extension** (Layer 2) rather than modifying the plugin.
 - Output language follows workspace steering (agent replies in user's language).
 

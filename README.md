@@ -57,7 +57,7 @@ Then install the plugin from this marketplace:
 In Cursor Agent chat, install from marketplace:
 
 ```text
-/add-plugin superpowers
+/add-plugin harnesssuperpowers
 ```
 
 or search for "superpowers" in the plugin marketplace.
