@@ -54,6 +54,22 @@ Record answer in `docs/superpowers/README.md` as:
 - Runtime evaluator scripts: English (convention)
 ```
 
+**Step 2.5 — Install always-on language steering (optional but recommended).**
+
+Create an always-on language policy file so the agent has a stable default in a new workspace:
+
+- Cursor: `.cursor/rules/harnesssuperpowers-language.md` (always-on rule)
+- Kiro: `.kiro/steering/language.md` (inclusion: always)
+
+Both should set:
+
+- Agent replies: default to the conversation language; if the user doesn’t specify, use the workspace default (often Traditional Chinese).
+- Specs / plans: follow conversation language.
+- KnowHow / knowhow-map / wiring-matrix: `<user answer>` from Step 2 (recorded in `docs/superpowers/README.md`).
+- Core plugin skill content: English (do not rewrite).
+
+If these files already exist, do not overwrite—report and move on.
+
 **Step 3 — Ask initial knowledge areas (interactive, optional).**
 
 Ask:
@@ -69,6 +85,11 @@ Copy each template from `skills/bootstrapping-harness/templates/` to the target 
 - `templates/README.md`        → `docs/superpowers/README.md`
 - `templates/knowhow-map.md`   → `docs/superpowers/knowhow-map.md`
 - `templates/wiring-matrix.md` → `docs/superpowers/wiring-matrix.md`
+
+If creating language steering, also copy:
+
+- `templates/cursor-language-rule.md` → `.cursor/rules/harnesssuperpowers-language.md`
+- `templates/kiro-language-steering.md` → `.kiro/steering/language.md`
 
 Create empty folders `docs/superpowers/specs/`, `docs/superpowers/plans/`, `docs/superpowers/knowhow/`, `scripts/evaluators/`, each with a `.gitkeep`.
 
@@ -94,7 +115,7 @@ Report what was created (paths + one-line description each). Ask the user to com
 
 ## Non-Goals
 
-- Do NOT install IDE-specific files (`.claude-plugin/`, `.cursor/rules/`, `.kiro/`). Those are Layer 1 (shipped with the plugin) or per-IDE concerns.
+- Do NOT install IDE-specific files broadly. Exception: the optional always-on language steering in Step 2.5 (`.cursor/rules/` and `.kiro/steering/language.md`) exists to make new workspaces consistent when hook injection is unreliable.
 - Do NOT write project-specific skills. User should author those on demand.
 
 ## Related Skills
