@@ -72,6 +72,16 @@ Claude Code hooks are configured via `hooks/hooks.json` (plugin-side). No projec
 
 Kiro uses `.kiro/hooks/*.kiro.hook` and `.kiro/steering/*` (project-side).
 
+#### Kiro-only steering (recommended to review on day 0)
+
+If the project will be worked in **Kiro**, keep these as **Kiro-only** (project-specific) files and review them immediately after installation:
+
+- `.kiro/steering/environment.md` — **project environment facts** (runtime versions, OS/shell, dependencies, how to run tests/build). This must be rewritten per project.
+- `.kiro/steering/documentation-rules.md` — **commit-time documentation discipline** (what docs must be updated before committing). Keep if your team uses DEV_NOTES/CHANGELOG style; otherwise adapt.
+- `.kiro/steering/skill-routing.md` — **intent → skill routing** for Kiro. Keep if you rely on Kiro’s always-on routing; update when adding/removing skills.
+
+These files are intentionally not moved into Layer 1: they are workflow- and team-specific, and they differ across projects.
+
 ## Step 3 — Run one full workflow loop (recommended)
 
 1. **Brainstorm**: invoke `skills/brainstorming/SKILL.md` to clarify requirements and produce an approved design/spec.
