@@ -2384,3 +2384,74 @@ Plan complete and saved to `docs/superpowers/plans/2026-04-22-kiro-superpowers-i
 - Every Task commits independently. If any Task fails review, stop the group and fix before continuing.
 - Phase 6 and Phase 7 are heavily manual; the controller (user) makes the pass/fail calls, not a subagent.
 - Do NOT merge to main until Phase 8.1 checkpoint passes.
+
+---
+
+## Phase 6 Log
+
+### Pre-flight (static, automated)
+
+Ran `tools/scripts/phase6-preflight.sh` (or equivalent inline script). 24 checks PASS / 0 FAIL.
+
+| Group | Result |
+|---|---|
+| Plugin manifests present (5) | ✅ PASS |
+| JSON manifests valid (7) | ✅ PASS |
+| New commands frontmatter valid (2) | ✅ PASS |
+| New hook scripts present + LF (3) | ✅ PASS |
+| `verify-adapters.sh` (5 adapters) | ✅ PASS |
+| Broken-link sweep (Layer 1 only) | ✅ PASS (9 Layer 2/3 references — expected absent) |
+| `.kiro/` adapter markers (5) | ✅ PASS |
+| `hooks/run-hook.cmd` dispatcher | ✅ PASS |
+| Plan + design + extension guide | ✅ PASS |
+
+### Claude Code (Task 6.1)
+
+> Status: PENDING — requires user to open this workspace in Claude Code.
+
+- [ ] 6.1.1 SessionStart: `using-superpowers` context injected — pass / fail / note: `<fill>`
+- [ ] 6.1.2 NL skill discovery (`scan spec ... for SDD compliance`): `superpowers:sdd-scan` invoked — pass / fail / note: `<fill>`
+- [ ] 6.1.3 `/scan-spec 2026-04-22-kiro-superpowers-integration-design`: equivalent behavior — pass / fail / note: `<fill>`
+- [ ] 6.1.4 Edit a spec file (e.g. add blank line to design doc) → save: `PostToolUse` fires `spec-sdd-check` reminder — pass / fail / note: `<fill>`
+- [ ] 6.1.5 End session (`/clear` or close): `Stop` fires `capture-knowhow-reminder` — pass / fail / note: `<fill>`
+
+### Cursor (Task 6.2)
+
+> Status: PARTIAL — Cursor (Windows) verified; other IDEs pending.
+
+- [ ] 6.2.1 SessionStart hook (`session-start`) — pass / fail / note: `pass`
+- [ ] 6.2.2 NL skill discovery (`sdd-scan`) — pass / fail / note: `pass`
+- [ ] 6.2.3 `/scan-spec` slash command — pass / fail / note: `pass`
+- [ ] 6.2.4 `afterFileEdit` / `afterTabFileEdit` hook → `spec-sdd-check` runs after spec edit — pass / fail / note: **pass (agent edit triggers)** — manual hand-edit + save did not trigger in this build; agent file edits fired `afterFileEdit` with `file_path` + `edits[]`, and `spec-sdd-check` returned `additional_context` successfully.
+- [ ] 6.2.5 `stop` hook → `capture-knowhow-reminder` at session end — pass / fail / note: **pass** — confirmed `stop` fires on agent turn completion (not UI close) and returns valid `additional_context`.
+- [ ] 6.2.6 Cursor hook config location + event names verified (project `.cursor/hooks.json`; valid types include `afterFileEdit`, `afterTabFileEdit`, `stop`) — pass / fail / note: **pass** — hooks service log: `Loaded 4 project hook(s) for steps: sessionStart, afterFileEdit, afterTabFileEdit, stop`.
+
+**Implementation note (Windows, plugin mode):** relative `./hooks/run-hook.cmd` is not stable because Cursor executes hooks with varying working directories (plugin root vs project root). Use `cmd /c "%CURSOR_PLUGIN_ROOT%\\hooks\\run-hook.cmd" <hook-name>` to ensure the hook script is found regardless of cwd.
+
+### Kiro (Task 6.3)
+
+> Status: PENDING — requires user to open in Kiro.
+> Note: dummy spec needed for hook trigger. Suggested path: `.kiro/specs/_smoke-test/requirements.md` (delete after).
+
+- [ ] 6.3.1 Open workspace in Kiro — pass / fail / note: `<fill>`
+- [ ] 6.3.2 Open `.kiro/specs/_smoke-test/requirements.md`: steering `sdd-bdd-tdd-workflow.md` (pointer) loaded via fileMatch — pass / fail / note: `<fill>`
+- [ ] 6.3.3 Edit + save the requirements file: `spec-sdd-check.kiro.hook` triggers reminder pointing to canonical — pass / fail / note: `<fill>`
+- [ ] 6.3.4 Invoke `superpowers:harness-engineering` (or `#harness-engineering`): adapter loads, agent reads canonical via pointer — pass / fail / note: `<fill>`
+- [ ] 6.3.5 End agent turn: `knowhow-sync.kiro.hook` (agentStop) fires reminder — pass / fail / note: `<fill>`
+
+### Codex / OpenCode / Gemini CLI — minimum discovery (Task 6.4)
+
+> Status: PENDING (best-effort; these IDEs do not support hooks).
+
+- [ ] 6.4.1 Codex: `skills/` discovered per `.codex/INSTALL.md`; NL invoke `harness-engineering` works — pass / fail / note: `<fill>`
+- [ ] 6.4.2 OpenCode: per `docs/README.opencode.md`; NL invoke works — pass / fail / note: `<fill>`
+- [ ] 6.4.3 Gemini CLI: best-effort via `AGENTS.md` + skill mention — pass / fail / note: `<fill>`. If fails, decide whether to open Open Question #5 follow-up.
+
+### Phase 6 Commit (Task 6.5)
+
+After all rows above are filled, commit this log:
+
+```bash
+git add docs/superpowers/plans/2026-04-22-kiro-superpowers-integration.md
+git commit -m "docs(plans): phase 6 cross-IDE smoke test log"
+```
