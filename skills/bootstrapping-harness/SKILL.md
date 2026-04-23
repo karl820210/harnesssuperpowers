@@ -58,7 +58,7 @@ Record answer in `docs/superpowers/README.md` as:
 
 Create always-on policy files so the agent has stable defaults in a new workspace (especially when hook injection is unreliable). This step is mandatory for a new workspace adopting this harness.
 
-- Cursor: `.cursor/rules/harnesssuperpowers-language.md` (always-on rule)
+- Cursor: `.cursor/rules/harnesssuperpowers-language.mdc` (always-on rule)
 - Kiro: `.kiro/steering/language.md` (inclusion: always)
 
 Both should set:
@@ -73,10 +73,10 @@ If these files already exist, do not overwrite—report and move on.
 Also install these always-on, **project-scoped** policies:
 
 - Environment facts (project must rewrite immediately):
-  - Cursor: `.cursor/rules/harnesssuperpowers-environment.md`
+  - Cursor: `.cursor/rules/harnesssuperpowers-environment.mdc`
   - Kiro: `.kiro/steering/environment.md`
 - Documentation discipline (commit-time rules; adapt to your repo):
-  - Cursor: `.cursor/rules/harnesssuperpowers-documentation-rules.md`
+  - Cursor: `.cursor/rules/harnesssuperpowers-documentation-rules.mdc`
   - Kiro: `.kiro/steering/documentation-rules.md`
 
 **Step 3 — Ask initial knowledge areas (interactive, optional).**
@@ -97,12 +97,12 @@ Copy each template from `skills/bootstrapping-harness/templates/` to the target 
 
 Always copy (unless target already exists):
 
-- `templates/cursor-language-rule.md` → `.cursor/rules/harnesssuperpowers-language.md`
+- `templates/cursor-language-rule.md` → `.cursor/rules/harnesssuperpowers-language.mdc`
 - `templates/kiro-language-steering.md` → `.kiro/steering/language.md`
 
-- `templates/cursor-environment-rule.md` → `.cursor/rules/harnesssuperpowers-environment.md`
+- `templates/cursor-environment-rule.md` → `.cursor/rules/harnesssuperpowers-environment.mdc`
 - `templates/kiro-environment-steering.md` → `.kiro/steering/environment.md`
-- `templates/cursor-documentation-rules-rule.md` → `.cursor/rules/harnesssuperpowers-documentation-rules.md`
+- `templates/cursor-documentation-rules-rule.md` → `.cursor/rules/harnesssuperpowers-documentation-rules.mdc`
 - `templates/kiro-documentation-rules-steering.md` → `.kiro/steering/documentation-rules.md`
 
 Create empty folders `docs/superpowers/specs/`, `docs/superpowers/plans/`, `docs/superpowers/knowhow/`, `scripts/evaluators/`, each with a `.gitkeep`.

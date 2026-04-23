@@ -62,7 +62,7 @@ Implementation note: on Windows, use a stable path to the plugin hook runner. Pr
 
 If hooks injection is unreliable in your Cursor build, install the rule fallback:
 
-- `.cursor/rules/harnesssuperpowers-reminders.md` (this plugin ships it)
+- `.cursor/rules/harnesssuperpowers-reminders.mdc` (this plugin ships it)
 
 ### Claude Code
 

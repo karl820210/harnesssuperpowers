@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 # HarnessSuperpowers — Output Language (Cursor rule)
 
 This rule is always-on in Cursor (`.cursor/rules/`).

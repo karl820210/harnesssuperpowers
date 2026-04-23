@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 # HarnessSuperpowers — Documentation Rules (Cursor rule)
 
 This rule is always-on in Cursor (`.cursor/rules/`).
