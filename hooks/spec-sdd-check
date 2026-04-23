@@ -24,7 +24,16 @@ changed_file="${CURSOR_CHANGED_FILE:-}"
 if [ -z "$changed_file" ] && [ ! -t 0 ]; then
     # stdin has piped data — best-effort extract first file_path from JSON.
     # Use sed -n with a print flag so no-match exits 0 (safe under pipefail).
-    stdin_data=$(cat || true)
+    # NOTE: Some runners (Cursor hooks) provide a non-tty stdin that may be empty
+    # but not closed; `cat` would block forever. Only read when data is available.
+    stdin_data=$(
+        python - <<'PY' 2>/dev/null || true
+import sys, select
+ready, _, _ = select.select([sys.stdin], [], [], 0)
+if ready:
+    sys.stdout.write(sys.stdin.read())
+PY
+    )
     changed_file=$(printf '%s' "$stdin_data" | sed -nE 's/.*"file_path"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p' | head -n1)
 fi
 
