@@ -110,11 +110,13 @@ Start a new session in your chosen platform and ask for something that should tr
 In a brand-new project workspace:
 
 1. Invoke `getting-started` to bootstrap Layer 2 (`docs/superpowers/`) and run one full workflow loop.
-2. (Optional, Cursor) Enable hooks via project `.cursor/hooks.json` or user `%USERPROFILE%/.cursor/hooks.json` so session reminders (scan-spec / capture-knowhow) are injected automatically.
+2. (Optional, Cursor) Enable hooks via project `.cursor/hooks.json` or user `%USERPROFILE%/.cursor/hooks.json` so session reminders (scan-spec / capture-knowhow) are injected automatically. If hooks injection is unreliable in your Cursor build, use the always-on rules fallback: `.cursor/rules/harnesssuperpowers-reminders.mdc` (with `alwaysApply: true` frontmatter).
 
 ## The Basic Workflow
 
 1. **brainstorming** - Activates before writing code. Refines rough ideas through questions, explores alternatives, presents design in sections for validation. Saves design document.
+
+   (Optional, SDD / spec-shaped work) If the feature needs Correctness Properties (CP-xx), Interface Contracts, or a Wiring Matrix, run **sdd-workflow** to structure the spec, then run **/scan-spec** (or **sdd-scan**) to check SDD compliance before planning.
 
 2. **using-git-worktrees** - Activates after design approval. Creates isolated workspace on new branch, runs project setup, verifies clean test baseline.
 
@@ -126,7 +128,11 @@ In a brand-new project workspace:
 
 6. **requesting-code-review** - Activates between tasks. Reviews against plan, reports issues by severity. Critical issues block progress.
 
+   (Optional, feature checkpoint) Run **verification-before-completion**, and apply the **harness-engineering** 5-dimension audit when validating a whole spec/phase (Feedforward/Feedback/Wiring/Latent-vs-Deterministic/Flywheel).
+
 7. **finishing-a-development-branch** - Activates when tasks complete. Verifies tests, presents options (merge/PR/keep/discard), cleans up worktree.
+
+   (Optional, session end) Run **/capture-knowhow** (or **capturing-knowhow**) when new learnings surfaced, to feed the project KnowHow flywheel.
 
 **The agent checks for relevant skills before any task.** Mandatory workflows, not suggestions.
 
