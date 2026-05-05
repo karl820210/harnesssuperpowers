@@ -31,7 +31,7 @@ Expected outputs created in the workspace:
 
 - `docs/superpowers/README.md` (project conventions; KnowHow language)
 - `docs/superpowers/specs/`
-- `docs/superpowers/plans/`
+- `docs/superpowers/handover/`
 - `docs/superpowers/knowhow-map.md`
 - `docs/superpowers/knowhow/`
 
@@ -53,7 +53,7 @@ If the user chooses **user hooks**, instruct them to create or update `%USERPROF
 Recommended hook steps for Cursor (Windows plugin mode):
 
 - `sessionStart` → `session-start`
-- `afterFileEdit` → `spec-sdd-check`
+- `afterFileEdit` → `spec-scan-check` (triggers spec-scan on edits in specs/<phaseName>/)
 - `stop` → `capture-knowhow-reminder`
 
 Implementation note: on Windows, use a stable path to the plugin hook runner. Prefer:
@@ -84,17 +84,18 @@ These files are intentionally not moved into Layer 1: they are workflow- and tea
 
 ## Step 3 — Run one full workflow loop (recommended)
 
-1. **Brainstorm**: invoke `skills/brainstorming/SKILL.md` to clarify requirements and produce an approved design/spec.
-2. **(Optional) Scan**: run `/scan-spec <spec-name>` (or invoke `skills/sdd-scan/SKILL.md`) if the work is spec-shaped.
-3. **Plan**: invoke `skills/writing-plans/SKILL.md` to generate a plan under `docs/superpowers/plans/`.
-4. **Execute**: invoke `skills/subagent-driven-development/SKILL.md` for task-by-task implementation + two-stage review.
-5. **Verify**: invoke `skills/verification-before-completion/SKILL.md` at feature checkpoint.
-6. **Capture KnowHow**: run `/capture-knowhow` (or invoke `skills/capturing-knowhow/SKILL.md`).
+1. **Brainstorm**: invoke `skills/brainstorming/SKILL.md` to clarify requirements and produce an approved PRD.
+2. **(Full only) SysDesign**: invoke `skills/writing-sysdesign/SKILL.md` if PRD Complexity = Full.
+3. **(Full only) Scan**: invoke `skills/spec-scan/SKILL.md` to validate SysDesign.
+4. **Tasks**: invoke `skills/writing-tasks/SKILL.md` to generate tasks under `docs/superpowers/specs/<phaseName>/tasks.md`.
+5. **Execute**: invoke `skills/subagent-driven-development/SKILL.md` for task-by-task implementation + two-stage review.
+6. **Verify**: invoke `skills/verification-before-completion/SKILL.md` at feature checkpoint.
+7. **Capture KnowHow**: run `/capture-knowhow` (or invoke `skills/capturing-knowhow/SKILL.md`).
 
 ## Step 4 — Where to put project-specific knowledge
 
 - **Stable learnings**: `docs/superpowers/knowhow/*.md` + `knowhow-map.md` (Flywheel)
-- **Design intent**: `docs/superpowers/specs/*.md` (Wiring Matrix / CP-xx when applicable)
+- **Design intent**: `docs/superpowers/specs/<phaseName>/` (PRD / SysDesign / Tasks)
 - **Deterministic checks**: `scripts/evaluators/*` (Layer 3 Mode A; promote from Mode B)
 
 ## Success Criteria (quick)

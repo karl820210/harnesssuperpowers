@@ -1,6 +1,6 @@
 ---
 name: capturing-knowhow
-description: Capture session-learned KnowHow into a persistent project knowledge base. Use at session end, when the user corrects your mistaken assumption, when a fix root-caused to an undocumented constraint, when a discarded-then-replaced approach revealed a hidden trade-off, or when a design decision shifted. Feeds the Harness Engineering Flywheel; complements sdd-workflow, writing-plans, and the capture-knowhow-reminder hook.
+description: Capture session-learned KnowHow into a persistent project knowledge base. Use at session end, when the user corrects your mistaken assumption, when a fix root-caused to an undocumented constraint, when a discarded-then-replaced approach revealed a hidden trade-off, or when a design decision shifted. Feeds the Harness Engineering Flywheel; complements writing-sysdesign, writing-tasks, and the capture-knowhow-reminder hook.
 ---
 
 # Capturing KnowHow
@@ -80,9 +80,9 @@ Do not invent updates. If no target file exists, say so and suggest running `ski
 
 ## Related Skills
 
-- `skills/sdd-workflow/SKILL.md` — the Flywheel closes when captured KnowHow feeds new CP-xx or Wiring Matrix entries in the next spec.
+- `skills/writing-sysdesign/SKILL.md` — the Flywheel closes when captured KnowHow feeds new CP-xx or Wiring Matrix entries in the next SysDesign.
 - `skills/harness-engineering/SKILL.md` — Flywheel concept canonical.
-- `skills/writing-plans/SKILL.md` — new plans should consult relevant KnowHow entries before authoring tasks.
+- `skills/writing-tasks/SKILL.md` — new tasks should consult relevant KnowHow entries before authoring.
 - `skills/bootstrapping-harness/SKILL.md` — creates the KnowHow map + initial files.
 - `skills/systematic-debugging/SKILL.md` — common upstream of capturable learnings.
 

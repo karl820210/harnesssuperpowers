@@ -1,6 +1,6 @@
 ---
 name: harness-engineering
-description: Harness Engineering framework — audit, diagnose, and improve an AI agent's harness coverage. Covers Feedforward (Skills/Steering guides), Feedback (Hooks/Tests sensors), Wiring Integrity (Wiring Matrix), Latent vs Deterministic boundary, and the Feedback Flywheel. Use when auditing harness coverage, diagnosing missed wiring, improving agent work quality, authoring new guides or sensors, or discussing harness engineering architecture.
+description: "Framework health diagnostic tool — NOT a per-task gate. Use periodically: when onboarding a new project, after completing a major Phase, when agent quality degrades, or during scheduled reviews. Covers Feedforward (Skills/Steering), Feedback (Hooks/Tests), Wiring Integrity, Latent vs Deterministic boundary, and the Feedback Flywheel."
 ---
 
 # Harness Engineering Framework
@@ -277,9 +277,9 @@ Harness Engineering (this skill)
 
 ## Related Skills
 
-- `skills/sdd-workflow/SKILL.md` — structured SDD/BDD/TDD flow that consumes Wiring Matrix.
-- `skills/writing-plans/SKILL.md` — plan authoring that materializes CP-xx and Wiring Matrix into tasks.
-- `skills/verification-before-completion/SKILL.md` — invokes the 5-dimension audit at completion checkpoints.
+- `skills/writing-sysdesign/SKILL.md` — produces SysDesign documents with CP-xx and Wiring Matrix.
+- `skills/writing-tasks/SKILL.md` — task authoring that materializes CP-xx and Wiring Matrix into bite-sized tasks.
+- `skills/verification-before-completion/SKILL.md` — per-task Iron Law verification (not 5-dimension audit).
 - `skills/capturing-knowhow/SKILL.md` — the Flywheel feedback capture point.
 
 ## References

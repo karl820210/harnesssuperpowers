@@ -1,63 +1,87 @@
-# 專案開發層級結構定義 (Project Development Hierarchy)
+# Project Development Hierarchy
 
-本文件定義了軟體開發計畫中，從宏觀目標到微觀執行的六個層級結構，旨在建立團隊溝通的共同語言，並優化進度追蹤的精細度。
+This document defines the hierarchy structure for software development projects within the Superpowers framework, from strategic direction to atomic execution.
 
 ---
 
-## 1. 層級概覽 (Hierarchy Overview)
+## 1. Hierarchy Overview
 
-| 層級 (Level) | 名稱 (Name) | 核心重點 (Focus) | 管理視角 |
+| Layer | Name | Focus | AI Agent Context |
 | :--- | :--- | :--- | :--- |
-| **L1** | **Roadmap (路線圖)** | 戰略方向 | 經營層 / PMO |
-| **L2** | **Initiative (倡議)** | 重大里程碑 | 產品總監 / 技術負責人 |
-| **L3** | **Epic (史詩)** | 大型系統模組 | 專案經理 / 主管 |
-| **L4** | **Feature (功能)** | 用戶價值點 | 開發團隊 / PO |
-| **L5** | **Phase (階段)** | 作業生命週期 | 團隊進度控管 |
-| **L6** | **Task (任務)** | 最小執行單元 | 個人開發者 |
+| **Wave** | Strategic Segment | Long-term direction | Roadmap top-level grouping |
+| **[Epic]** | Flexible Grouping | Organize when > 7 Phases | Optional — insert when needed |
+| **Phase** | Atomic Deliverable | Independent feature/module | Gets PRD + SysDesign (Full) + Tasks |
+| **Stage** | Execution Lifecycle | 0: Roadmap → 1: PRD+SysDesign → 2: Tasks → 3: Execute | Determines which skill to use |
+| **Task** | Bite-Sized Work Item | 2-5 minute action | Individual steps in tasks.md |
 
 ---
 
-## 2. 各層級詳細定義與範例
+## 2. Layer Definitions
 
-### L1. Roadmap (路線圖)
-* **定義：** 長期的戰略願景，通常以半年或年度為單位。
-* **範例：** 2026 年度全球化市場擴展計畫、新一代遊戲引擎平台升級。
+### Wave (Strategic Segment)
+* **Definition:** Strategic grouping sequenced by user/product journey. Usually 2-4 per project.
+* **Fields:** Goal, Done Definition, Risks, Non-goals, CP + Sensor (optional)
+* **Example:** Wave 1: Core Gameplay, Wave 2: Social Features, Wave 3: Monetization
 
-### L2. Initiative (倡議)
-* **定義：** 為了達成 Roadmap 而發起的大型跨團隊工作。
-* **範例：** 建立「金好運」快速原型驗證框架、導入自動化運維架構。
+### Epic (Flexible Grouping — optional)
+* **Definition:** Intermediate grouping between Wave and Phase. Insert only when a Wave has > 7 Phases.
+* **Fields:** Goal, Non-goals, Phase list
+* **Example:** Epic: Boss Battle System (under Wave 1)
 
-### L3. Epic (史詩)
-* **定義：** 一個無法在單一迭代中完成的獨立功能體系或系統。
-* **範例：** 排行榜與社交系統、新機台核心玩法開發、支付渠道中台。
+### Phase (Atomic Deliverable)
+* **Definition:** An independently deliverable feature, module, or change. Each Phase produces its own PRD, optional SysDesign (Full), and Tasks.
+* **Complexity:** Lite (PRD + Tasks) or Full (PRD + SysDesign + Tasks)
+* **Example:** Phase 1: Fish Spawning System, Phase 2: Collision Detection
 
-### L4. Feature (功能)
-* **定義：** Epic 下拆分的具體功能，通常是 PM 或設計師開出的需求單位。
-* **範例：** 排行榜積分邏輯、LINE Pay 支付串接、玩家等級成就 UI。
+### Stage (Execution Lifecycle within a Phase)
+* **Definition:** The development stage of a Phase. Fixed lifecycle:
+    * **Stage 0 — Roadmap:** Strategic planning (handled by `authoring-roadmap`)
+    * **Stage 1 — PRD + SysDesign:** Requirements and design (handled by `brainstorming` + `writing-sysdesign`)
+    * **Stage 2 — Tasks:** Implementation planning (handled by `writing-tasks`)
+    * **Stage 3 — Execute:** Coding and testing (handled by `subagent-driven-development`)
 
-### L5. Phase (階段)
-* **定義：** 針對單一 Feature 的作業進度劃分，明確當前處於什麼開發狀態。
-* **常見選項：**
-    * **Spec / Plan：** 規格定義與技術方案評估。
-    * **Implementation (Dev)：** 實際程式碼撰寫。
-    * **Testing / QA：** 測試、修 Bug 與驗收。
-    * **Deployment：** 上線部署與後續監控。
-
-### L6. Task (任務)
-* **定義：** 開發者個人層級的工作，應在 1-2 天內可以完成。
-* **範例：** 撰寫 API 文件、設計資料庫 Schema、前端組件開發、切換特定資產格式。
+### Task (Bite-Sized Work Item)
+* **Definition:** A single action that takes 2-5 minutes. Written in `tasks.md`.
+* **Example:** Write failing test for spawning logic, implement spawn function, commit
 
 ---
 
-## 3. 實際應用案例範例 (遊戲開發情境)
+## 3. Example Application (Game Development)
 
-* **Roadmap:** 2026 產品競爭力提升
-    * **Initiative:** 快速原型驗證框架 (Rapid Prototyping Framework)
-        * **Epic:** 機台 Boss 戰快速生成工具
-            * **Feature:** Boss AI 狀態機配置功能
-                * **Phase:** Spec / Plan
-                    * **Task:** 定義 AI 狀態轉移規格書
-                    * **Task:** 調研現有狀態機插件相容性
-                * **Phase:** Implementation (Dev)
-                    * **Task:** 實作核心狀態切換邏輯
-                    * **Task:** 串接美術特效 API
+* **Wave 1:** Core Gameplay
+    * **Phase 1:** Boss AI State Machine
+        * Stage 0: Recorded in Roadmap
+        * Stage 1: PRD (brainstorming) → SysDesign (Full — has CP-xx and Wiring Matrix)
+        * Stage 2: Tasks (bite-sized implementation steps)
+        * Stage 3: Execute (subagent-driven development)
+    * **Phase 2:** Fish Spawning System
+        * Stage 1: PRD (Lite — no new public interfaces)
+        * Stage 2: Tasks
+        * Stage 3: Execute
+* **Wave 2:** Social Features
+    * **Phase 3:** Leaderboard
+    * **Phase 4:** Friend System
+
+---
+
+## 4. Key Design Decisions
+
+### Fixed Ends, Flexible Middle
+
+Wave and Phase are **fixed** layers that always exist. Epic is a **flexible** layer inserted only when needed (> 7 Phases under a Wave).
+
+### Lite vs Full Complexity
+
+| Signal | Complexity |
+|:---|:---|
+| New exported functions / API endpoints / public interfaces | Full |
+| 2+ modules need to coordinate | Full |
+| Neither signal present | Lite |
+
+### Phase Naming Convention
+
+| Type | Format | Example |
+|:---|:---|:---|
+| Roadmap Phase | `YYYY-MM-DD-w<N>-p<N>-<topic>` | `2026-05-04-w1-p1-fish-spawning` |
+| With Epic | `YYYY-MM-DD-w<N>-e<N>-p<N>-<topic>` | `2026-05-04-w1-e1-p2-collision` |
+| Ad-hoc Phase | `YYYY-MM-DD-<topic>` | `2026-05-05-login-bug` |

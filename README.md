@@ -110,29 +110,76 @@ Start a new session in your chosen platform and ask for something that should tr
 In a brand-new project workspace:
 
 1. Invoke `getting-started` to bootstrap Layer 2 (`docs/superpowers/`) and run one full workflow loop.
-2. (Optional, Cursor) Enable hooks via project `.cursor/hooks.json` or user `%USERPROFILE%/.cursor/hooks.json` so session reminders (scan-spec / capture-knowhow) are injected automatically. If hooks injection is unreliable in your Cursor build, use the always-on rules fallback: `.cursor/rules/harnesssuperpowers-reminders.mdc` (with `alwaysApply: true` frontmatter).
+2. (Optional, Cursor) Enable hooks via project `.cursor/hooks.json` or user `%USERPROFILE%/.cursor/hooks.json` so session reminders (spec-scan / capture-knowhow) are injected automatically. If hooks injection is unreliable in your Cursor build, use the always-on rules fallback: `.cursor/rules/harnesssuperpowers-reminders.mdc` (with `alwaysApply: true` frontmatter).
 
-## The Basic Workflow
+## The Spec-Driven Development Pipeline
 
-1. **brainstorming** - Activates before writing code. Refines rough ideas through questions, explores alternatives, presents design in sections for validation. Saves design document.
+The Superpowers framework uses a structured **Wave → Phase → Stage** hierarchy to manage complexity. The workflow progresses through four strict Stages (0 to 3) for each Phase:
 
-   (Optional, SDD / spec-shaped work) If the feature needs Correctness Properties (CP-xx), Interface Contracts, or a Wiring Matrix, run **sdd-workflow** to structure the spec, then run **/scan-spec** (or **sdd-scan**) to check SDD compliance before planning.
+```mermaid
+flowchart TD
+    %% Define Styles
+    classDef stage0 fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#000
+    classDef stage1 fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px,color:#000
+    classDef stage2 fill:#fff3e0,stroke:#fb8c00,stroke-width:2px,color:#000
+    classDef stage3 fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#000
+    classDef humanGate fill:#ffebee,stroke:#e53935,stroke-width:2px,color:#000,stroke-dasharray: 5 5
+    classDef loop fill:#f5f5f5,stroke:#757575,stroke-width:1px,stroke-dasharray: 3 3
 
-2. **using-git-worktrees** - Activates after design approval. Creates isolated workspace on new branch, runs project setup, verifies clean test baseline.
+    %% Stage 0
+    subgraph S0 [Stage 0: Strategic Planning]
+        R[authoring-roadmap]:::stage0 --> |Produces| RM[roadmap.md]
+    end
 
-3. **writing-plans** - Activates with approved design. Breaks work into bite-sized tasks (2-5 minutes each). Every task has exact file paths, complete code, verification steps.
+    %% Stage 1
+    subgraph S1 [Stage 1: Requirements & Design]
+        B[brainstorming]:::stage1 --> |Produces| PRD[prd.md]
+        PRD --> |Complexity: Lite| G1{HUMAN GATE: Approve PRD?}:::humanGate
+        PRD --> |Complexity: Full| SD[writing-sysdesign]:::stage1
+        SD --> |Produces| SYS[sysdesign.md]
+        SYS --> SCAN1[spec-scan]:::loop
+        SCAN1 --> |Passes| G1
+    end
 
-4. **subagent-driven-development** or **executing-plans** - Activates with plan. Dispatches fresh subagent per task with two-stage review (spec compliance, then code quality), or executes in batches with human checkpoints.
+    %% Stage 2
+    subgraph S2 [Stage 2: Implementation Planning]
+        G1 --> |Yes| WT[writing-tasks]:::stage2
+        WT --> |Produces| TSK[tasks.md]
+        TSK --> SCAN2[spec-scan cross-file]:::loop
+        SCAN2 --> |Passes| G2{HUMAN GATE: Approve Tasks?}:::humanGate
+    end
 
-5. **test-driven-development** - Activates during implementation. Enforces RED-GREEN-REFACTOR: write failing test, watch it fail, write minimal code, watch it pass, commit. Deletes code written before tests.
+    %% Stage 3
+    subgraph S3 [Stage 3: Execution]
+        G2 --> |Yes| GW[using-git-worktrees]:::stage3
+        GW --> SDD[subagent-driven-development]:::stage3
+        SDD --> |Review Loop| REV[requesting-code-review]:::loop
+        REV --> |Passes| FDB[finishing-a-development-branch]:::stage3
+        FDB --> |Updates| RM
+    end
 
-6. **requesting-code-review** - Activates between tasks. Reviews against plan, reports issues by severity. Critical issues block progress.
+    S0 --> S1
+```
 
-   (Optional, feature checkpoint) Run **verification-before-completion**, and apply the **harness-engineering** 5-dimension audit when validating a whole spec/phase (Feedforward/Feedback/Wiring/Latent-vs-Deterministic/Flywheel).
+### Stage 0: Strategic Planning
+1. **authoring-roadmap** - Creates and maintains the top-level project `roadmap.md` using the Wave → Phase hierarchy.
 
-7. **finishing-a-development-branch** - Activates when tasks complete. Verifies tests, presents options (merge/PR/keep/discard), cleans up worktree.
+### Stage 1: Requirements & Design
+2. **brainstorming** - Refines rough ideas into a formal PRD (`prd.md`). Recommends if the Phase is "Lite" or "Full".
+3. **writing-sysdesign** (Full Phases only) - Creates system architecture, Interface Contracts, and Correctness Properties (`sysdesign.md`).
+4. **spec-scan** - Automatically validates the SysDesign for compliance and cross-file consistency.
 
-   (Optional, session end) Run **/capture-knowhow** (or **capturing-knowhow**) when new learnings surfaced, to feed the project KnowHow flywheel.
+### Stage 2: Implementation Planning
+5. **writing-tasks** - Breaks the approved design into bite-sized implementation tasks (2-5 mins each) with clear verification steps (`tasks.md`).
+6. **spec-scan** - Validates tasks against the PRD and SysDesign.
+
+### Stage 3: Execution
+7. **using-git-worktrees** - Creates an isolated workspace and branch for implementation (run *after* design is complete).
+8. **subagent-driven-development** - Dispatches fresh subagents per task with a two-stage review process (spec compliance, then code quality).
+9. **requesting-code-review** - Used between tasks to ensure code quality and plan adherence.
+10. **finishing-a-development-branch** - Merges code, cleans up worktree, and automatically marks the Phase as Done in the roadmap.
+
+*(Optional at any point)* **capturing-knowhow** - Persist session learnings into the project's KnowHow base to avoid repeating mistakes.
 
 **The agent checks for relevant skills before any task.** Mandatory workflows, not suggestions.
 
@@ -147,21 +194,23 @@ In a brand-new project workspace:
 - **systematic-debugging** - 4-phase root cause process (includes root-cause-tracing, defense-in-depth, condition-based-waiting techniques)
 - **verification-before-completion** - Ensure it's actually fixed
 
-**Collaboration** 
-- **brainstorming** - Socratic design refinement
-- **writing-plans** - Detailed implementation plans
+**Collaboration & Planning** 
+- **authoring-roadmap** - Strategic Wave/Phase roadmap planning
+- **brainstorming** - Socratic design refinement to produce PRD
+- **writing-tasks** - Detailed implementation plans from specs
 - **executing-plans** - Batch execution with checkpoints
 - **dispatching-parallel-agents** - Concurrent subagent workflows
 - **requesting-code-review** - Pre-review checklist
 - **receiving-code-review** - Responding to feedback
 - **using-git-worktrees** - Parallel development branches
 - **finishing-a-development-branch** - Merge/PR decision workflow
-- **subagent-driven-development** - Fast iteration with two-stage review (spec compliance, then code quality)
+- **subagent-driven-development** - Fast iteration with two-stage review
+- **next-session-handover** - Generate context-rich handovers for future sessions
 
-**Harness Engineering & SDD**
-- **harness-engineering** - Framework audit (5-dimension coverage, Wiring Matrix, Latent/Deterministic boundary, Feedback Flywheel)
-- **sdd-workflow** - SDD → BDD → TDD overview for structured feature work (CP-xx Correctness Properties)
-- **sdd-scan** - Compliance scan on specs (CP-xx, Wiring Matrix, BDD/TDD task structure)
+**Harness Engineering & Spec-Driven Development**
+- **harness-engineering** - Periodic diagnostic tool (Feedforward, Feedback, Wiring Matrix, Flywheel)
+- **writing-sysdesign** - Architecture and design flow producing CP-xx and Interface Contracts
+- **spec-scan** - Automated compliance and cross-file consistency checker for Phase documents
 - **capturing-knowhow** - Capture session learnings into a project KnowHow base
 - **bootstrapping-harness** - Scaffold a project's Layer 2 harness extension (`docs/superpowers/`)
 

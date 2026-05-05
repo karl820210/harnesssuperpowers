@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# spec-sdd-check — PostToolUse reminder: when a spec file is edited, nudge the
-# agent to run sdd-scan next turn.
+# spec-scan-check — PostToolUse reminder: when a Phase spec file is edited, nudge the
+# agent to run spec-scan next turn.
 #
 # Input: hook event JSON is on stdin (Claude Code) or env vars (Cursor).
 # Output: JSON envelope matching the current platform; empty `{}` if not a spec.
@@ -9,7 +9,9 @@ set -euo pipefail
 
 is_spec_path() {
     case "$1" in
-        *'/specs/'*'.md') return 0 ;;
+        *'/specs/'*'/prd.md') return 0 ;;
+        *'/specs/'*'/sysdesign.md') return 0 ;;
+        *'/specs/'*'/tasks.md') return 0 ;;
         .kiro/specs/*/*.md) return 0 ;;
         *) return 1 ;;
     esac
@@ -43,7 +45,7 @@ if [ -n "$changed_file" ] && ! is_spec_path "$changed_file"; then
     exit 0
 fi
 
-context='<system_reminder>A spec file was just edited. Before continuing, consider running `superpowers:sdd-scan` (or `/scan-spec`) on it to check: CP-xx Correctness Properties, precondition/postcondition annotations, Wiring Matrix presence, and BDD/TDD task structure. Skip if this edit was cosmetic.</system_reminder>'
+context='<system_reminder>A Phase spec file was just edited. Before continuing, consider running `superpowers:spec-scan` on the Phase folder to check: PRD completeness, Interface Contracts, CP-xx Correctness Properties, Wiring Matrix presence, Latent/Deterministic tagging, and cross-file consistency. Skip if this edit was cosmetic.</system_reminder>'
 
 if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
     printf '{"additional_context":"%s"}\n' "$context"

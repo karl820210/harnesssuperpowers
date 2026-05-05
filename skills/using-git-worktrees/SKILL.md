@@ -208,11 +208,11 @@ Ready to implement auth feature
 
 ## Integration
 
-**Called by:**
-- **brainstorming** (Phase 4) - REQUIRED when design is approved and implementation follows
+**Called by (Stage 3 start):**
 - **subagent-driven-development** - REQUIRED before executing any tasks
 - **executing-plans** - REQUIRED before executing any tasks
-- Any skill needing isolated workspace
+
+**NOT called by brainstorming.** Worktree creation happens at Stage 3 (execution), not Stage 1 (design).
 
 **Pairs with:**
 - **finishing-a-development-branch** - REQUIRED for cleanup after work complete

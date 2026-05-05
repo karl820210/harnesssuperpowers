@@ -1,6 +1,6 @@
 ---
 name: bootstrapping-harness
-description: Scaffold a project's Layer 2 harness structure. Use when a new workspace adopts Superpowers and needs docs/superpowers/{specs,plans,knowhow,knowhow-map.md,wiring-matrix.md}, scripts/evaluators/ placeholders, and an output-language convention. Interactive — asks the user which language KnowHow should be written in and which initial knowledge areas to seed.
+description: Scaffold a project's Layer 2 harness structure. Use when a new workspace adopts Superpowers and needs docs/superpowers/{specs,knowhow,knowhow-map.md}, scripts/evaluators/ placeholders, and an output-language convention. Interactive — asks the user which language KnowHow should be written in and which initial knowledge areas to seed.
 ---
 
 # Bootstrapping Harness
@@ -22,11 +22,11 @@ Do NOT use when the structure is already complete and matches the Discovery Cont
 ├── docs/
 │   └── superpowers/
 │       ├── README.md           ← project conventions (language, owners, etc.)
-│       ├── specs/              ← feature specs
-│       ├── plans/              ← implementation plans
+│       ├── roadmap.md          ← macro roadmap (created via authoring-roadmap)
+│       ├── specs/              ← Phase folders (prd.md, sysdesign.md, tasks.md)
+│       ├── handover/           ← session handover files
 │       ├── knowhow/            ← long-lived KnowHow files
-│       ├── knowhow-map.md      ← knowledge area → file/skill/steering mapping
-│       └── wiring-matrix.md    ← project-wide module wiring (optional; per-spec matrices preferred)
+│       └── knowhow-map.md      ← knowledge area → file/skill/steering mapping
 └── scripts/
     └── evaluators/             ← Mode A deterministic evaluators (placeholder)
         └── README.md           ← when to add Mode A script, when Mode B is enough
@@ -105,7 +105,7 @@ Always copy (unless target already exists):
 - `templates/cursor-documentation-rules-rule.md` → `.cursor/rules/harnesssuperpowers-documentation-rules.mdc`
 - `templates/kiro-documentation-rules-steering.md` → `.kiro/steering/documentation-rules.md`
 
-Create empty folders `docs/superpowers/specs/`, `docs/superpowers/plans/`, `docs/superpowers/knowhow/`, `scripts/evaluators/`, each with a `.gitkeep`.
+Create empty folders `docs/superpowers/specs/`, `docs/superpowers/handover/`, `docs/superpowers/knowhow/`, `scripts/evaluators/`, each with a `.gitkeep`.
 
 Create `scripts/evaluators/README.md` with:
 
@@ -135,5 +135,6 @@ Report what was created (paths + one-line description each). Ask the user to com
 ## Related Skills
 
 - `skills/capturing-knowhow/SKILL.md` — uses the `knowhow-map.md` this skill seeds.
-- `skills/harness-engineering/SKILL.md` — Wiring Matrix canonical template.
-- `skills/writing-plans/SKILL.md` — consumes `docs/superpowers/plans/`.
+- `skills/harness-engineering/SKILL.md` — framework diagnostic tool.
+- `skills/writing-tasks/SKILL.md` — produces tasks in `docs/superpowers/specs/<phaseName>/tasks.md`.
+- `skills/authoring-roadmap/SKILL.md` — produces `docs/superpowers/roadmap.md`.

@@ -94,15 +94,26 @@ These thoughts mean STOP—you're rationalizing:
 | "This feels productive" | Undisciplined action wastes time. Skills prevent this. |
 | "I know what that means" | Knowing the concept ≠ using the skill. Invoke it. |
 
-## Skill Priority
+## Skill Priority — Stage-Based Routing
 
-When multiple skills could apply, use this order:
+When starting a session, determine the current Stage first, then route to the corresponding skill:
 
-1. **Process skills first** (brainstorming, debugging) - these determine HOW to approach the task
-2. **Implementation skills second** (frontend-design, mcp-builder) - these guide execution
+| Stage | Primary Skill | When |
+|:---|:---|:---|
+| Stage 0 | `authoring-roadmap` | Creating/updating strategic roadmap |
+| Stage 1 | `brainstorming` → `writing-sysdesign` (Full) | Requirements exploration → PRD → SysDesign |
+| Stage 2 | `writing-tasks` | Creating implementation tasks |
+| Stage 3 | `subagent-driven-development` or `executing-plans` | Executing tasks |
 
-"Let's build X" → brainstorming first, then implementation skills.
-"Fix this bug" → debugging first, then domain-specific skills.
+How to determine the Stage:
+1. Check if Roadmap exists → read Phase status
+2. Check which Phase documents exist (prd.md, sysdesign.md, tasks.md)
+3. If unclear, ask the user
+
+For non-development tasks:
+- "Fix this bug" → `systematic-debugging` first
+- "Review this" → `requesting-code-review`
+- "Audit the framework" → `harness-engineering`
 
 ## Skill Types
 

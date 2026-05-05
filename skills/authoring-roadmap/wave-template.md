@@ -1,89 +1,76 @@
-﻿# Wave Template (Option 4: Layer-Weighted)
+# Wave Template
 
-This template demonstrates a macro-roadmap section that keeps decomposition visible while preserving lightweight maintenance.
-
----
-
-## 0. Layer Rules
-
-### L1 (Roadmap/Wave)
-- Required: Goal, Done Definition, Dependencies/Parallelism, Risks, Non-goals
-- Recommended: >=1 CP+Sensor pair
-
-### L2 (Initiative)
-- Required: Goal, Done Definition, Dependencies/Parallelism
-- Recommended: >=1 CP+Sensor pair
-
-### L3 (Epic)
-- Required: Goal, Done Definition
-- Recommended: >=1 CP+Sensor pair
-
-### L4 (Feature)
-- Required: One-line Value statement
-- Recommended: Spec/Plan link or `TBD(owner/ETA)`
+This template demonstrates a macro-roadmap section using the Wave → [Epic] → Phase hierarchy.
 
 ---
 
 ## Wave N: <Name>
 
-### L1 / Wave N
-
-- **Goal**: ...
-- **Done Definition**:
+- **Goal:** <what the world looks like when this Wave is done>
+- **Done Definition:**
   1. ...
   2. ...
   3. ...
-- **CP + Sensor (Wave-level)**:
-  - CP-WN-1: ...
+- **Non-goals:**
+  - ...
+- **Risks:**
+  - ...
+- **CP + Sensor (optional):**
+  - CP-WN-01: ...
   - Sensor: ...
-- **Dependencies / Parallelism**:
-  - Depends on: ...
-  - Can run in parallel with: ...
-- **Risks**: ...
-- **Non-goals**: ...
 
 ---
 
-### L2->L4 Decomposition
+### Phases (direct under Wave — no Epic needed if ≤ 7 Phases)
 
-#### L2 Initiative: <Name>
+#### Phase 1: <Name>
 
-- **Goal**: ...
-- **Done Definition**: ...
-- **CP + Sensor**:
-  - CP-IN-1: ...
-  - Sensor: ...
-- **Dependencies / Parallelism**:
-  - Depends on: ...
-  - Can run in parallel with: ...
+- **Goal:** ...
+- **Depends on:** None
+- **Complexity:** Lite | Full
+- **PRD:** TBD
+- **SysDesign:** TBD | N/A (Lite)
+- **Tasks:** TBD
+- **Status:** Not Started
 
-##### L3 Epic: <Name>
+#### Phase 2: <Name>
 
-- **Goal**: ...
-- **Done Definition**: ...
-- **CP + Sensor**:
-  - CP-EN-1: ...
-  - Sensor: ...
+- **Goal:** ...
+- **Depends on:** Phase 1
+- **Complexity:** Lite | Full
+- **PRD:** TBD
+- **SysDesign:** TBD | N/A (Lite)
+- **Tasks:** TBD
+- **Status:** Not Started
 
-- **L4 Feature: <Name>**
-  - Value: ...
-  - Spec/Plan: `TBD(owner: <name>, ETA: yyyy-mm-dd)`
+---
 
-- **L4 Feature: <Name>**
-  - Value: ...
-  - Spec/Plan: `TBD(owner: <name>, ETA: yyyy-mm-dd)`
+### With Epic (use when Wave has > 7 Phases)
 
-##### L3 Epic: <Name>
+#### Epic A: <Name>
 
-- **Goal**: ...
-- **Done Definition**: ...
-- **CP + Sensor**:
-  - CP-EN-2: ...
-  - Sensor: ...
+- **Goal:** ...
+- **Non-goals:** ...
 
-- **L4 Feature: <Name>**
-  - Value: ...
-  - Spec/Plan: `TBD(owner: <name>, ETA: yyyy-mm-dd)`
+##### Phase 1: <Name>
+
+- **Goal:** ...
+- **Depends on:** None
+- **Complexity:** Lite | Full
+- **PRD:** TBD
+- **SysDesign:** TBD | N/A (Lite)
+- **Tasks:** TBD
+- **Status:** Not Started
+
+##### Phase 2: <Name>
+
+- **Goal:** ...
+- **Depends on:** Phase 1
+- **Complexity:** Full
+- **PRD:** TBD
+- **SysDesign:** TBD
+- **Tasks:** TBD
+- **Status:** Not Started
 
 ---
 

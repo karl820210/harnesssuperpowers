@@ -28,6 +28,7 @@ For each task:
 2. Follow each step exactly (plan has bite-sized steps)
 3. Run verifications as specified
 4. Mark as completed
+5. Update the plan file: change `- [ ]` to `- [x]` for completed steps using Edit tool
 
 ### Step 3: Complete Development
 
@@ -65,6 +66,6 @@ After all tasks complete and verified:
 ## Integration
 
 **Required workflow skills:**
-- **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
-- **superpowers:writing-plans** - Creates the plan this skill executes
-- **superpowers:finishing-a-development-branch** - Complete development after all tasks
+- **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting (at Stage 3 start)
+- **superpowers:writing-tasks** - Creates the tasks this skill executes (reads `specs/<phaseName>/tasks.md`)
+- **superpowers:finishing-a-development-branch** - Complete development after all tasks, update Roadmap status
