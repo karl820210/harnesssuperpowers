@@ -60,6 +60,7 @@ Create always-on policy files so the agent has stable defaults in a new workspac
 
 - Cursor: `.cursor/rules/harnesssuperpowers-language.mdc` (always-on rule)
 - Kiro: `.kiro/steering/language.md` (inclusion: always)
+- Antigravity: `.agents/rules/harnesssuperpowers-language.md` (always-on rule; Antigravity project config lives in `.agents/`)
 
 Both should set:
 
@@ -75,9 +76,11 @@ Also install these always-on, **project-scoped** policies:
 - Environment facts (project must rewrite immediately):
   - Cursor: `.cursor/rules/harnesssuperpowers-environment.mdc`
   - Kiro: `.kiro/steering/environment.md`
+  - Antigravity: `.agents/rules/harnesssuperpowers-environment.md`
 - Documentation discipline (commit-time rules; adapt to your repo):
   - Cursor: `.cursor/rules/harnesssuperpowers-documentation-rules.mdc`
   - Kiro: `.kiro/steering/documentation-rules.md`
+  - Antigravity: `.agents/rules/harnesssuperpowers-documentation-rules.md`
 
 **Step 3 — Ask initial knowledge areas (interactive, optional).**
 
@@ -99,11 +102,14 @@ Always copy (unless target already exists):
 
 - `templates/cursor-language-rule.md` → `.cursor/rules/harnesssuperpowers-language.mdc`
 - `templates/kiro-language-steering.md` → `.kiro/steering/language.md`
+- `templates/antigravity-language-rule.md` → `.agents/rules/harnesssuperpowers-language.md`
 
 - `templates/cursor-environment-rule.md` → `.cursor/rules/harnesssuperpowers-environment.mdc`
 - `templates/kiro-environment-steering.md` → `.kiro/steering/environment.md`
+- `templates/antigravity-environment-rule.md` → `.agents/rules/harnesssuperpowers-environment.md`
 - `templates/cursor-documentation-rules-rule.md` → `.cursor/rules/harnesssuperpowers-documentation-rules.mdc`
 - `templates/kiro-documentation-rules-steering.md` → `.kiro/steering/documentation-rules.md`
+- `templates/antigravity-documentation-rules-rule.md` → `.agents/rules/harnesssuperpowers-documentation-rules.md`
 
 Create empty folders `docs/superpowers/specs/`, `docs/superpowers/handover/`, `docs/superpowers/knowhow/`, `scripts/evaluators/`, each with a `.gitkeep`.
 

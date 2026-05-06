@@ -19,7 +19,7 @@ Help the user start using Superpowers effectively **in a brand-new project** by 
 
 Ask only what changes the procedure:
 
-- Which IDE? (Cursor / Claude Code / Kiro / Codex / OpenCode / Gemini CLI)
+- Which IDE? (Cursor / Claude Code / Kiro / Codex / OpenCode / Gemini CLI / Antigravity)
 - Do you want hooks enabled? (yes/no)
 - If Cursor: prefer **user hooks** (global) or **project hooks** (per repo)?
 
@@ -71,6 +71,21 @@ Claude Code hooks are configured via `hooks/hooks.json` (plugin-side). No projec
 ### Kiro
 
 Kiro uses `.kiro/hooks/*.kiro.hook` and `.kiro/steering/*` (project-side).
+
+### Antigravity
+
+Antigravity project configuration lives under `.agents/` (project-scoped).
+
+- Project rules: `.agents/rules/*.md`
+- Rule frontmatter format (required at file start):
+
+```markdown
+---
+trigger: always_on
+glob:
+description:
+---
+```
 
 #### Kiro-only steering (recommended to review on day 0)
 
