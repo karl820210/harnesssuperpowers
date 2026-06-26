@@ -58,29 +58,43 @@ Record answer in `docs/superpowers/README.md` as:
 
 Create always-on policy files so the agent has stable defaults in a new workspace (especially when hook injection is unreliable). This step is mandatory for a new workspace adopting this harness.
 
-- Cursor: `.cursor/rules/harnesssuperpowers-language.mdc` (always-on rule)
-- Kiro: `.kiro/steering/language.md` (inclusion: always)
-- Antigravity: `.agents/rules/harnesssuperpowers-language.md` (always-on rule; Antigravity project config lives in `.agents/`)
+### Cursor
 
-Both should set:
-
-- Agent replies: default to the conversation language; if the user doesn’t specify, use the workspace default (often Traditional Chinese).
-- Specs / plans: follow conversation language.
-- KnowHow / knowhow-map / wiring-matrix: `<user answer>` from Step 2 (recorded in `docs/superpowers/README.md`).
-- Core plugin skill content: English (do not rewrite).
-
-If these files already exist, do not overwrite—report and move on.
+- `.cursor/rules/harnesssuperpowers-language.mdc` (always-on rule)
 
 Also install these always-on, **project-scoped** policies:
 
-- Environment facts (project must rewrite immediately):
-  - Cursor: `.cursor/rules/harnesssuperpowers-environment.mdc`
-  - Kiro: `.kiro/steering/environment.md`
-  - Antigravity: `.agents/rules/harnesssuperpowers-environment.md`
-- Documentation discipline (commit-time rules; adapt to your repo):
-  - Cursor: `.cursor/rules/harnesssuperpowers-documentation-rules.mdc`
-  - Kiro: `.kiro/steering/documentation-rules.md`
-  - Antigravity: `.agents/rules/harnesssuperpowers-documentation-rules.md`
+- Environment facts (project must rewrite immediately): `.cursor/rules/harnesssuperpowers-environment.mdc`
+- Documentation discipline (commit-time rules; adapt to your repo): `.cursor/rules/harnesssuperpowers-documentation-rules.mdc`
+
+### Kiro
+
+- `.kiro/steering/language.md` (inclusion: always)
+- Environment facts: `.kiro/steering/environment.md`
+- Documentation discipline: `.kiro/steering/documentation-rules.md`
+
+### Claude Code
+
+Claude Code reads `CLAUDE.md` (workspace root) as always-on context, and `.claude/settings.json` for permissions and hooks.
+
+**Files to create (if not present):**
+
+- `CLAUDE.md` — merges language defaults, environment facts, and commit-time discipline into a single always-on file. Use `templates/claude-claude-md.md`.
+- `.claude/settings.json` — tool permissions and PreToolUse hook for commit discipline. Use `templates/claude-settings.json`.
+- `.claude/scripts/pre-commit-check.sh` — hook script called by settings.json. Use `templates/claude-pre-commit-check.sh`.
+
+**What each section of `CLAUDE.md` maps to:**
+
+| Cursor / Kiro file | `CLAUDE.md` section |
+|---|---|
+| `harnesssuperpowers-language.mdc` | `## Output Language` |
+| `harnesssuperpowers-environment.mdc` | `## Environment Facts` |
+| `harnesssuperpowers-documentation-rules.mdc` | `## Commit-time Discipline` |
+
+**Hook behaviour:**
+The `pre-commit-check.sh` script exits 1 (blocking) when code files are staged but neither `docs/DEV_NOTES.md` nor `docs/CHANGELOG.md` is staged. Exit 0 passes through silently. Adjust the doc-path pattern in the script to match the project’s actual docs layout.
+
+All language/environment/documentation defaults should be set the same way as for Cursor/Kiro (see above). If these files already exist, do not overwrite — report and move on.
 
 **Step 3 — Ask initial knowledge areas (interactive, optional).**
 
@@ -100,16 +114,20 @@ Copy each template from `skills/bootstrapping-harness/templates/` to the target 
 
 Always copy (unless target already exists):
 
+**Cursor:**
 - `templates/cursor-language-rule.md` → `.cursor/rules/harnesssuperpowers-language.mdc`
-- `templates/kiro-language-steering.md` → `.kiro/steering/language.md`
-- `templates/antigravity-language-rule.md` → `.agents/rules/harnesssuperpowers-language.md`
-
 - `templates/cursor-environment-rule.md` → `.cursor/rules/harnesssuperpowers-environment.mdc`
-- `templates/kiro-environment-steering.md` → `.kiro/steering/environment.md`
-- `templates/antigravity-environment-rule.md` → `.agents/rules/harnesssuperpowers-environment.md`
 - `templates/cursor-documentation-rules-rule.md` → `.cursor/rules/harnesssuperpowers-documentation-rules.mdc`
+
+**Kiro:**
+- `templates/kiro-language-steering.md` → `.kiro/steering/language.md`
+- `templates/kiro-environment-steering.md` → `.kiro/steering/environment.md`
 - `templates/kiro-documentation-rules-steering.md` → `.kiro/steering/documentation-rules.md`
-- `templates/antigravity-documentation-rules-rule.md` → `.agents/rules/harnesssuperpowers-documentation-rules.md`
+
+**Claude Code:**
+- `templates/claude-claude-md.md` → `CLAUDE.md`
+- `templates/claude-settings.json` → `.claude/settings.json`
+- `templates/claude-pre-commit-check.sh` → `.claude/scripts/pre-commit-check.sh`
 
 Create empty folders `docs/superpowers/specs/`, `docs/superpowers/handover/`, `docs/superpowers/knowhow/`, `scripts/evaluators/`, each with a `.gitkeep`.
 
