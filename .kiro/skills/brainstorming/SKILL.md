@@ -12,7 +12,7 @@ description: "You MUST use this before any creative work - creating features, bu
 
 ## Quick Reference
 
-- **When to use:** exploring a fresh requirement before any code; feeding `sdd-workflow` or `writing-plans`.
+- **When to use:** exploring a fresh requirement before any code; produces a PRD that feeds `writing-sysdesign` (Full) or `writing-tasks` (Lite).
 - **Main output:** an approved design suitable for Spec Requirements/Design stage.
 - **Key steps:**
   1. Explore context; optionally offer Visual Companion.
@@ -24,7 +24,7 @@ description: "You MUST use this before any creative work - creating features, bu
 
 ## Kiro-specific note
 
-After approval, a Kiro Spec (requirements / design / tasks) is the design document — no separate `docs/plans/` needed in Kiro workflow. Outside Kiro (Claude Code / Cursor), the design is captured in `docs/superpowers/specs/<date>-<name>.md` and turned into a plan by `skills/writing-plans`.
+After approval, a Kiro Spec (requirements / design / tasks) is the design document — no separate `docs/plans/` needed in Kiro workflow. Outside Kiro (Claude Code / Cursor), the PRD is captured in `docs/superpowers/specs/<phaseName>/prd.md`, then turned into a SysDesign by `skills/writing-sysdesign` (Full complexity) and into implementation tasks by `skills/writing-tasks`.
 
 ## Full Content
 

@@ -372,7 +372,7 @@ Context budget 評估：{健康/偏高/過載}
 ## 與現有框架的關係
 
 - 本技能與 `harness-engineering` 互補：harness-engineering 審計的是「開發流程的 harness 覆蓋率」（Feedforward/Feedback/Wiring），本技能審計的是「Kiro 設定本身的品質」
-- 本技能與 `sdd-scan` 互補：sdd-scan 檢查 spec 文件的 SDD 合規，本技能檢查 .kiro/ 設定的框架合規
+- 本技能與 `spec-scan` 互補：spec-scan 檢查 spec 文件的 SDD 合規，本技能檢查 .kiro/ 設定的框架合規
 - 建議在以下時機使用：
   - 匯入本模板到新專案後
   - 新增或修改 steering/hook/skill 後

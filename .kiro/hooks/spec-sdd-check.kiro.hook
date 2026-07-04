@@ -1,7 +1,7 @@
 {
   "enabled": true,
   "name": "Spec SDD 合規檢查",
-  "description": "Spec 檔案被編輯時，提醒執行 superpowers:sdd-scan（canonical：skills/sdd-scan/SKILL.md）",
+  "description": "Spec 檔案被編輯時，提醒執行 superpowers:spec-scan（canonical：skills/spec-scan/SKILL.md）",
   "version": "2",
   "when": {
     "type": "fileEdited",
@@ -14,6 +14,6 @@
   },
   "then": {
     "type": "askAgent",
-    "prompt": "Spec 檔案剛被編輯。請考慮執行 `superpowers:sdd-scan`（或 `/scan-spec`），檢查：CP-xx Correctness Properties、precondition/postcondition、Wiring Matrix、BDD/TDD 任務結構。若本次修改純屬排版/錯字，可略過。Canonical 內容在 `skills/sdd-scan/SKILL.md`。"
+    "prompt": "Spec 檔案剛被編輯。請考慮執行 `superpowers:spec-scan`（或 `/scan-spec`），檢查：CP-xx Correctness Properties、precondition/postcondition、Wiring Matrix、BDD/TDD 任務結構。若本次修改純屬排版/錯字，可略過。Canonical 內容在 `skills/spec-scan/SKILL.md`。"
   }
 }

@@ -14,7 +14,7 @@
 | `skills/systematic-debugging/` | adapter | `skills/systematic-debugging/` (plugin) |
 | `skills/subagent-driven-development/` | adapter | `skills/subagent-driven-development/` (plugin) |
 | `skills/harness-engineering/` | adapter | `skills/harness-engineering/` (plugin) |
-| `skills/sdd-scan/` | adapter | `skills/sdd-scan/` (plugin) |
+| `skills/spec-scan/` | adapter | `skills/spec-scan/` (plugin) |
 | `skills/git-worktree/` | **Kiro-only**（composite of plugin `using-git-worktrees` + `finishing-a-development-branch`） | — |
 | `skills/skill-creator/` | **Kiro-only**（無 upstream 對應） | — |
 | `skills/kiro-framework-audit/` | **Kiro-only**（審計 `.kiro/` 自身） | — |
@@ -28,21 +28,21 @@
 | `steering/documentation-rules.md` | **Kiro-only**（commit 時文件規則） | — |
 | `steering/knowhow-sync-rules.md` | pointer | `skills/capturing-knowhow/SKILL.md` |
 | `steering/skill-routing.md` | **Kiro-only**（Kiro 側 skill 路由表） | — |
-| `steering/sdd-bdd-tdd-workflow.md` | pointer | `skills/sdd-workflow/SKILL.md` + `skills/harness-engineering/SKILL.md` |
+| `steering/sdd-bdd-tdd-workflow.md` | pointer | `skills/writing-sysdesign/SKILL.md` + `skills/writing-tasks/SKILL.md` + `skills/harness-engineering/SKILL.md` |
 
 ### Hooks
 
 | Kiro hook | 觸發 | 行為 |
 |---|---|---|
-| `hooks/spec-sdd-check.kiro.hook` | `fileEdited` (spec md) | 提醒 `superpowers:sdd-scan` |
+| `hooks/spec-sdd-check.kiro.hook` | `fileEdited` (spec md) | 提醒 `superpowers:spec-scan` |
 | `hooks/knowhow-sync.kiro.hook` | `agentStop` | 提醒 `superpowers:capturing-knowhow` |
 | `hooks/pre-commit-check.kiro.hook` | `preToolUse`（shell） | disabled（保留，留待專案自行 enable） |
 
 ### Canonical 流程（跨 IDE）
 
-1. Brainstorming（`skills/brainstorming/`）→ 設計批准
+1. Brainstorming（`skills/brainstorming/`）→ 產 PRD、設計批准
 2. 若採用 SDD：建立 spec（Kiro `.kiro/specs/` 或跨 IDE `docs/superpowers/specs/`）
-3. `skills/writing-plans/` 產 plan（Kiro 若用 Spec 流程此步可省）
+3. Full 複雜度 → `skills/writing-sysdesign/` 產 SysDesign；接著（或 Lite 直接）→ `skills/writing-tasks/` 產任務（Kiro 若用原生 Spec 流程此步可省）
 4. `skills/subagent-driven-development/` 執行 + two-stage review
 5. Session 結束 → `skills/capturing-knowhow/`
 
@@ -170,9 +170,9 @@
 | toolTypes 有效 category | 若有自訂 MCP 工具，可在 hook 設計健康度段落補充有效的 tool name pattern |
 | 機制分界表 | Steering vs Hook vs Skill vs MCP vs Powers 的分界原則為通用規則，通常不需調整 |
 
-### `skills/sdd-scan/`
+### `skills/spec-scan/`
 
-> ⚠️ **不可降低標準**：sdd-scan 的掃描項目對應 `sdd-bdd-tdd-workflow.md` 的完整規則。若目標專案現有的 spec 文件不符合掃描標準，正確做法是**修正 spec 文件使其合規**，而非放寬掃描條件。
+> ⚠️ **不可降低標準**：spec-scan 的掃描項目對應 `sdd-bdd-tdd-workflow.md` 的完整規則。若目標專案現有的 spec 文件不符合掃描標準，正確做法是**修正 spec 文件使其合規**，而非放寬掃描條件。
 
 - 此 skill 依據 `sdd-bdd-tdd-workflow.md` 的規則進行掃描，兩者必須保持一致
 - 若調整了 workflow 中的語言特定規則（如測試命名慣例），需同步調整掃描項目中的對應描述

@@ -14,7 +14,7 @@ inclusion: always
 | 遇到 bug、測試失敗、非預期行為 | `systematic-debugging` | Process |
 | 執行 Spec tasks、run all tasks | `subagent-driven-development` | Implementation |
 | 開始新功能需要隔離環境 | `git-worktree` | Implementation |
-| run all tasks 前檢查 spec 品質 | `sdd-scan` | Implementation |
+| run all tasks 前檢查 spec 品質 | `spec-scan` | Implementation |
 | 審計 .kiro/ 設定品質 | `kiro-framework-audit` | Meta |
 | 審計 harness 覆蓋率、接線完整性 | `harness-engineering` | Meta |
 

@@ -9,10 +9,12 @@ This file was the original full SDD-BDD-TDD spec. The canonical content now live
 
 ## Canonical
 
-- Overview: `skills/sdd-workflow/SKILL.md`
+- Requirements → PRD: `skills/brainstorming/SKILL.md`
+- Full-complexity design (SysDesign): `skills/writing-sysdesign/SKILL.md`
+- Task breakdown (BDD/TDD): `skills/writing-tasks/SKILL.md`
 - TDD discipline: `skills/test-driven-development/SKILL.md`
 - Wiring Matrix template + 5-dim audit: `skills/harness-engineering/SKILL.md`
-- Static compliance scan: `skills/sdd-scan/SKILL.md`
+- Static compliance scan: `skills/spec-scan/SKILL.md`
 
 ## Why the steering file still exists
 

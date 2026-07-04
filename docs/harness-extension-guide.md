@@ -70,10 +70,10 @@ Set per-project in `docs/superpowers/README.md`.
 ## Getting Started in a New Workspace
 
 ```
-1. Invoke skills/bootstrapping-harness         → scaffolds Layer 2
-2. Brainstorm a feature (skills/brainstorming) → writes docs/superpowers/specs/<name>.md
-3. (Optional) /scan-spec <name>                → SDD compliance scan
-4. Write a plan (skills/writing-plans)         → docs/superpowers/plans/<name>.md
+1. Invoke skills/bootstrapping-harness            → scaffolds Layer 2
+2. Brainstorm a feature (skills/brainstorming)    → writes docs/superpowers/specs/<phaseName>/prd.md
+3. (Optional) /scan-spec <name>                   → spec compliance scan
+4. Full → SysDesign (skills/writing-sysdesign); then/Lite → tasks (skills/writing-tasks)
 5. Execute (skills/subagent-driven-development) with two-stage review
 6. Session ends → capture learnings (/capture-knowhow)
 ```
@@ -81,6 +81,6 @@ Set per-project in `docs/superpowers/README.md`.
 ## Related
 
 - `skills/harness-engineering/SKILL.md` — framework canonical + 5-dim audit + Wiring Matrix template.
-- `skills/sdd-workflow/SKILL.md` — SDD → BDD → TDD flow overview.
+- `skills/writing-sysdesign/SKILL.md` + `skills/writing-tasks/SKILL.md` — SDD → BDD → TDD flow (SysDesign then Tasks).
 - `skills/bootstrapping-harness/SKILL.md` — Layer 2 scaffolder.
 - `docs/superpowers/specs/2026-04-22-kiro-superpowers-integration-design.md` — the design behind this integration.

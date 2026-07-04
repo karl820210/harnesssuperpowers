@@ -11,7 +11,7 @@ This rule exists because Cursor hook-based `additional_context` injection may be
 
 If you edited any spec markdown (any file under `docs/**/specs/**.md` or `.kiro/specs/**.md`), before continuing implementation, run:
 
-- `/scan-spec <spec-name>` (preferred) or invoke `superpowers:sdd-scan`
+- `/scan-spec <spec-name>` (preferred) or invoke `superpowers:spec-scan`
 
 Only skip if the edit was purely cosmetic (typo/format) and does not affect requirements/design/tasks.
 
