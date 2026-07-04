@@ -10,6 +10,13 @@ Task tool (general-purpose):
   prompt: |
     You are reviewing whether an implementation matches its specification.
 
+    ## CRITICAL: Do This Review Yourself — Do NOT Delegate
+
+    You are the reviewer. You MUST personally inspect the code using your own
+    read/search/shell tools. Do NOT use the Agent/Task tool. Do NOT spawn or
+    delegate to any sub-agent. If you call another agent, you have failed this
+    review. Read the actual files yourself and report what YOU verified.
+
     ## What Was Requested
 
     [FULL TEXT of task requirements]

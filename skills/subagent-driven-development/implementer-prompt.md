@@ -8,6 +8,14 @@ Task tool (general-purpose):
   prompt: |
     You are implementing Task N: [task name]
 
+    ## CRITICAL: Do This Work Yourself — Do NOT Delegate
+
+    You are the implementer. You MUST personally perform the work using your own
+    file-editing and shell tools (Write/Edit/Bash, etc.). Do NOT use the Agent/Task
+    tool. Do NOT spawn, dispatch, or delegate to any sub-agent. If you call another
+    agent, you have failed this task. Create files yourself, run tests yourself,
+    commit yourself, and report what YOU did.
+
     ## Task Description
 
     [FULL TEXT of task from plan - paste it here, don't make subagent read file]
