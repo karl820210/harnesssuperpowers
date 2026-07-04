@@ -2,7 +2,7 @@
   "name": "harnesssuperpowers",
   "displayName": "HarnessSuperpowers",
   "description": "Core skills library: TDD, debugging, collaboration patterns, and proven techniques",
-  "version": "5.0.7",
+  "version": "6.1.1.H",
   "author": {
     "name": "Jesse Vincent",
     "email": "jesse@fsck.com"
@@ -19,7 +19,6 @@
     "workflows"
   ],
   "skills": "./skills/",
-  "agents": "./agents/",
   "commands": "./commands/",
   "hooks": "./hooks/hooks-cursor.json"
 }

@@ -148,8 +148,8 @@
 
 | 項目 | 說明 |
 |------|------|
-| Prompt 模板語言 | 3 個 prompt 模板（implementer、spec-reviewer、code-quality-reviewer）目前為中文，可依團隊偏好調整 |
-| SDD 標準 | spec-reviewer-prompt.md 中的 SDD 檢查項（CP-xx、Wiring Matrix、BDD、TDD）與 `sdd-bdd-tdd-workflow.md` 綁定，兩者必須一致 |
+| Prompt 模板語言 | 2 個 prompt 模板（implementer、task-reviewer）目前為中文，可依團隊偏好調整 |
+| SDD 標準 | task-reviewer-prompt.md 中的 SDD 檢查項（CP-xx、Wiring Matrix、BDD、TDD）與 `sdd-bdd-tdd-workflow.md` 綁定，兩者必須一致 |
 | `invokeSubAgent` 工具 | 模板使用 Kiro 的 `invokeSubAgent`（name: `general-task-execution`），若平台不支援 sub-agent 需改為手動執行 |
 
 ### `skills/git-worktree/`（可選）

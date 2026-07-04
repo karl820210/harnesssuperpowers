@@ -13,6 +13,8 @@ When you have multiple unrelated failures (different test files, different subsy
 
 **Core principle:** Dispatch one agent per independent problem domain. Let them work concurrently.
 
+This skill governs the coordinator's decision to fan out to leaf workers. A dispatched worker (e.g., an SDD implementer or reviewer) does the work itself and does not re-delegate — see subagent-driven-development's prompt templates.
+
 ## When to Use
 
 ```dot
@@ -65,13 +67,16 @@ Each agent gets:
 
 ### 3. Dispatch in Parallel
 
-```typescript
-// In Claude Code / AI environment
-Task("Fix agent-tool-abort.test.ts failures")
-Task("Fix batch-completion-behavior.test.ts failures")
-Task("Fix tool-approval-race-conditions.test.ts failures")
-// All three run concurrently
+Issue all three subagent dispatches in the same response — they run in parallel:
+
+```text
+Subagent (general-purpose): "Fix agent-tool-abort.test.ts failures"
+Subagent (general-purpose): "Fix batch-completion-behavior.test.ts failures"
+Subagent (general-purpose): "Fix tool-approval-race-conditions.test.ts failures"
+# All three run concurrently.
 ```
+
+Multiple dispatch calls in one response = parallel execution. One per response = sequential.
 
 ### 4. Review and Integrate
 
