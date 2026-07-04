@@ -164,6 +164,11 @@ Domain-specific examples (Web API):
   □ Do KnowHow documents keep growing? (Knowledge is accumulating)
   □ Do checklists keep growing? (Lessons turn into check items)
   □ Does Steering receive feedback updates from KnowHow? (Closed loop)
+  □ Any always-on rule unused for ~10 sessions? Propose demotion per
+    docs/knowhow-promotion-protocol.md § Demotion — growth without
+    pruning is also a failure mode
+  □ Any KnowHow entry with routing-failure marks? Its index trigger
+    line needs rewriting (same protocol, § Citation discipline)
 ```
 
 ---

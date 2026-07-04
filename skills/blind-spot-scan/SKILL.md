@@ -14,7 +14,7 @@ Small edits in familiar territory; tasks where the terrain is already well mappe
 ## Procedure
 
 1. **State the map.** Write down, in a few lines: the task as understood, the constraints given, and — critically — *the assumptions being made without evidence*. If the user provided their starting point ("I know X well, Y not at all"), include it.
-2. **Probe the terrain (bounded, read-only).** Explore what the map claims: entry points, call sites of things to be changed, configs, tests, sibling implementations of similar features, platform/environment constraints. Time-box it; the goal is contact with reality, not full coverage. Dispatch a read-only subagent for wide sweeps.
+2. **Probe the terrain (bounded, read-only).** Explore what the map claims: entry points, call sites of things to be changed, configs, tests, sibling implementations of similar features, platform/environment constraints. Time-box it; the goal is contact with reality, not full coverage. Dispatch a read-only subagent for wide sweeps. **If the named system is not inside the current workspace at all** (zero matches for its core terms), stop probing — ask the user for the correct root directory instead of scanning the wrong repo; a scan of the wrong terrain produces confidently irrelevant unknowns.
 3. **Report unknowns in four buckets:**
    - **Known knowns** — map claims verified against terrain (one line each; contradictions surface here).
    - **Known unknowns** — open questions already visible; note how each would be resolved (ask user / probe code / spike).

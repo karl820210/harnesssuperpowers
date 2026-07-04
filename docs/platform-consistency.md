@@ -14,7 +14,7 @@
 
 ## Policy
 
-1. **Parity by default.** A new loop-relevant behavior (capture, injection, compliance check) must be wired on Claude Code, Cursor, AND Kiro in the same change — or its absence recorded in the Limitations table below. A behavior wired on one platform only, without a Limitations entry, is a defect.
+1. **Parity by default.** A new loop-relevant behavior (capture, injection, compliance check) must be wired on Claude Code, Cursor, AND Kiro in the same change — or its absence recorded in the Limitations table below. A behavior wired on one platform only, without a Limitations entry, is a defect. Adding a NEW Limitations row is itself a policy decision: it requires explicit user approval, recorded in the commit message.
 2. **Codex follows upstream main, untouched.** Codex intentionally has no hook wiring (upstream design: native skill discovery, empty `hooks` declaration). Do NOT add fork mechanisms to Codex packaging; if a fork mechanism cannot work on Codex, add a row to Limitations instead of implementing.
 3. **Semantic parity, not mechanical parity.** Platforms may implement the same behavior differently (hook vs always-on steering). What must match is the *observable effect*: same trigger moment, same guidance content, same canonical source file. When content lives in two places (e.g., hook script + steering reminder), both must point at the same canonical skill rather than duplicating its text.
 4. **Filtering granularity is allowed to differ** (Claude/Cursor fire on every edit and filter inside the script; Kiro filters by glob) as long as the *effective* trigger set is the same for spec files.
