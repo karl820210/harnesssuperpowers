@@ -34,6 +34,12 @@ If the user says "reply in English" (or any language override), switch immediate
 
 ---
 
+## KnowHow Index (read before touching an area)
+
+At task start, scan `docs/superpowers/knowhow-map.md` — its first column is a set of trigger conditions ("Before touching X → read §N"). If your task matches a trigger, read the pointed KnowHow sections **before** working in that area, and cite the entries you used (e.g. `knowhow/backend.md §7`) in your notes or report.
+
+---
+
 ## Commit-time Discipline
 
 When the user asks to "commit / 提交" or requests creating/fixing a commit:

@@ -2,6 +2,10 @@
 inclusion: always
 ---
 
+## KnowHow 索引
+
+開工先掃 `docs/superpowers/knowhow-map.md` 的觸發句欄；任務命中觸發條件 → 動那個領域**之前**先讀指向的 KnowHow 段落，用到的條目在回報中引用編號。
+
 ## Commit 規則
 
 當使用者說「commit / 提交 / 先 commit」或要求建立/修正 commit 時：

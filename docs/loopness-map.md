@@ -42,6 +42,6 @@ flowchart TD
 
 ## Known weak edges (honest assessment)
 
-- **E8/E9 are probabilistic**: pulling T2 at the right moment relies on the trigger wording catching the model's attention; citations are a proxy, not telemetry. Compensation: E10's routing-failure records convert silent misses into visible signals — but only for mines actually re-tripped.
+- **E8/E9 are probabilistic**: pulling T2 at the right moment relies on the trigger wording catching the model's attention; citations are a proxy, not telemetry. Compensation 1: bootstrapped projects now carry an always-on "KnowHow index" pointer in their CLAUDE.md / Cursor rule / Kiro steering (see `skills/bootstrapping-harness/templates/`), so the trigger table is routed into every session rather than depending on SDD skills being invoked. Compensation 2: E10's routing-failure records convert silent misses into visible signals — but only for mines actually re-tripped.
 - **E2 has no enforcement**: the reminder never blocks; a session can end without harvesting. Compensation: E1 puts the raw material on disk, so a later session (or the user) can still harvest.
 - **Codex carries none of these edges** — deliberate; see `docs/platform-consistency.md` (Limitations #1).

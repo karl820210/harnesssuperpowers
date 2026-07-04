@@ -45,6 +45,14 @@ Do NOT use when:
 - **Filename**：`YYYY-MM-DD-next-session-<topic>.md`
 - Use kebab-case for `<topic>`; avoid spaces.
 
+## Lifecycle (Consumed-by marking)
+
+This folder is shared with agent-initiated safety-net handovers (see Relation section below), so **all** files in it follow one lifecycle:
+
+- A session that takes over a handover adds one line at the **top** of the file: `Consumed-by: <date> <one-line task description>`. Files are never auto-deleted; the folder is the history, cleanup is the user's call.
+- A session that *discovers* an unconsumed handover it was not explicitly told to resume must **ask before taking over** — the file may be prepared for a different session or moment.
+- When generating a new handover for a task that already has an unconsumed one, carry its unfinished items forward (or explicitly mark them abandoned) — never silently orphan them.
+
 ## Handover Content Contract
 
 The handover file **itself is the prompt**. Do NOT wrap a separate "starter prompt" code block. Structure:
@@ -60,8 +68,8 @@ The handover file **itself is the prompt**. Do NOT wrap a separate "starter prom
      - Explicitly require running `/using-superpowers` first
      - Audit steps MUST use subagents (executable rules):
        - `/spec-scan`: executed via a subagent, reporting PASS/FAIL + must-fix list
-       - Plan Review: use `code-reviewer` subagent (must-fix/should-fix)
-       - Code Review: use `code-reviewer` subagent (changes + risk review)
+       - Plan Review: dispatch a general-purpose subagent filling the template at `skills/requesting-code-review/code-reviewer.md` (must-fix/should-fix)
+       - Code Review: same template dispatch (changes + risk review)
      - Fixed workflow order (do not change; includes review loops and two human confirmation gates):
        - `brainstorming -> PRD`
        - `-> (Full) writing-sysdesign -> spec-scan loop until PASS`
@@ -69,7 +77,7 @@ The handover file **itself is the prompt**. Do NOT wrap a separate "starter prom
        - `-> writing-tasks -> spec-scan (cross-file) loop until PASS`
        - `-> STOP for human confirmation (tasks gate)`
        - `-> commit -> using-git-worktrees -> subagent-driven-development`
-       - `-> per task: implementer -> spec reviewer -> code reviewer -> fix loop`
+       - `-> per task: implementer -> task reviewer (spec + quality verdicts) -> fix loop`
        - `-> finishing-a-development-branch`
      - Stop conditions (exceptions that require human):
        - Spec confirmation gate / Tasks confirmation gate
@@ -115,7 +123,7 @@ git status -sb
 
 I want to continue <topic> in this session.
 
-Run `/using-superpowers` first. Use subagents for audits (`/spec-scan`, Plan Review, Code Review; use `code-reviewer` for Plan/Code Review).
+Run `/using-superpowers` first. Use subagents for audits (`/spec-scan`; Plan/Code Review via a general-purpose subagent filling `skills/requesting-code-review/code-reviewer.md`).
 
 The workflow MUST be:
 brainstorming -> PRD
@@ -124,7 +132,7 @@ brainstorming -> PRD
 -> writing-tasks -> spec-scan (cross-file) loop until PASS
 -> STOP for human confirmation (tasks gate)
 -> commit -> using-git-worktrees -> subagent-driven-development
--> per task: implementer -> spec reviewer -> code reviewer -> fix loop
+-> per task: implementer -> task reviewer (spec + quality) -> fix loop
 -> finishing-a-development-branch
 
 Proceed automatically. STOP and ask me when:
@@ -136,6 +144,10 @@ Proceed automatically. STOP and ask me when:
 ## Environment / Rules
 
 - Unless exceptional, do NOT restate environment/command constraints in the handover; rely on project rules (e.g. `.cursor/rules/harnesssuperpowers-environment.mdc`).
+
+## Relation to the operator handover protocol
+
+This skill produces the **planned** handover (user-driven, SDD-flavored, file-is-the-prompt). Machines with an operator-layer handover protocol also have an **agent-initiated safety-net** handover (generic five-section format: goal & status / done with evidence / remaining / blockers & landmines / agent assignments) written into the same folder under the same naming and Consumed-by rules. Section mapping: Resume-at + Current status ≈ goal & status; SSOT pointers + verification commands ≈ done-with-evidence (evidence by pointer); Transient notes ≈ blockers & landmines (same discipline: record failure trails, not just conclusions). Use this skill when the user asks for a handover or work is inside the SDD pipeline; use the generic format for non-SDD tasks and emergency interrupts.
 
 ## Common Mistakes
 

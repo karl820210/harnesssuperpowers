@@ -11,7 +11,7 @@ Turn session learnings into persistent, searchable project knowledge.
 
 Knowledge is born mid-task — when a non-obvious bug is root-caused, an assumption is corrected, or an approach is abandoned. By session end, compaction and drift have already diluted it. So:
 
-1. **At the moment of surprise:** write 2-3 raw lines into the task's `implementation-notes.md` (create it if missing) — what surprised you, why, what worked. This takes seconds and does not break flow.
+1. **At the moment of surprise:** write 2-3 raw lines into the task's `implementation-notes.md` (create it if missing) — what surprised you, why, what worked. This takes seconds and does not break flow. Placement: the task's own folder — for SDD work that is `docs/superpowers/specs/<phaseName>/`; otherwise the project's task-folder convention (e.g. `docs/tasks/<date>-<slug>/`). One folder per task; parallel sessions never share a notes file, and only the task's top-level session writes it (subagents report, they don't write notes).
 2. **At session end** (the `capture-knowhow-reminder` hook fires): **harvest** those notes into proper KnowHow entries using the procedure below. Harvesting from a file survives compaction; recalling from a compacted conversation does not.
 
 If you reach session end with no notes but When-to-Capture criteria were met, still capture from memory — degraded capture beats none.

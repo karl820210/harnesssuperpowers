@@ -6,6 +6,10 @@ alwaysApply: true
 
 This rule is always-on in Cursor (`.cursor/rules/`).
 
+## KnowHow index
+
+At task start, scan `docs/superpowers/knowhow-map.md` trigger lines; if the task matches one, read the pointed KnowHow sections before touching that area, and cite used entries in your report.
+
 ## Commit-time discipline
 
 When the user asks to "commit / 提交" or requests creating/fixing a commit:
