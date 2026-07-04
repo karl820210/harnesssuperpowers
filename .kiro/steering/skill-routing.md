@@ -26,9 +26,9 @@ inclusion: always
 2. **Implementation skills 後**（subagent-driven-development、using-git-worktrees）— 執行
 
 「建一個 X」→ 先 brainstorming，再 subagent-driven-development。
-「修這個 bug」→ 先 systematic-debugging，修完走 TDD。
+「修這個 bug」→ 先 systematic-debugging，修完走 `test-driven-development`。
 
 ## Skill 紀律
 
-- **Rigid**（嚴格遵循）：systematic-debugging 的 4 階段、sdd-bdd-tdd-workflow 的 TDD Iron Law
+- **Rigid**（嚴格遵循）：systematic-debugging 的 4 階段、`test-driven-development` 的 TDD Iron Law（steering 對照：`.kiro/steering/sdd-bdd-tdd-workflow.md`，那是規則檔不是 skill）
 - **Flexible**（可適應）：brainstorming 的問題順序、using-git-worktrees 的目錄選擇

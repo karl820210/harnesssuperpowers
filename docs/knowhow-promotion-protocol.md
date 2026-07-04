@@ -34,7 +34,7 @@ Propose promoting a lesson into always-on steering/rules **only when all three h
 2. **Compressible** — it can be stated as a one-line behavioral rule with a clear trigger. If it needs a paragraph, it stays at T2 and only its T1 index line gets sharpened.
 3. **Broad applicability** — it would have changed behavior in most recent sessions, not just one task type. Task-type-specific rules belong in the matching skill, not in always-on steering.
 
-**Approval:** additions to any always-on file (steering with `inclusion: always`, `.mdc` with `alwaysApply`, session-start-injected content) require explicit user approval — they tax every future session. Additions to T2 files and T1 wording changes do not.
+**Approval:** additions to any always-on file (steering with `inclusion: always`, `.mdc` with `alwaysApply`, session-start-injected content) require explicit user approval — they tax every future session. Additions to T2 files and T1 wording changes do not. Scope note: this approval rule targets **behavioral rule content**; adding a pure routing pointer to an index/router file follows that file's own maintenance rules instead (e.g., the operator framework's maintenance classes), and files outside this protocol's jurisdiction follow their own rulebook (see Jurisdiction boundary below).
 
 - ✅ Example promotion: "PowerShell 5.1 writes UTF-16 by default" recurred in 3 entries across 2 projects → propose one T0 line: "PowerShell writing files read by other tools: always pass `-Encoding utf8`."
 - ❌ Anti-example: a subtle Unity WebGL memory quirk seen once, needing 10 lines of context → stays a T2 entry; its area's T1 line becomes "Changing WebGL memory settings → read knowhow/client.md §12 first."
@@ -66,3 +66,5 @@ Some lessons do not belong to the current project. At capture time, ask once: *w
 If no home exists at the right layer, capture locally at T2 and flag the entry `(candidate for <layer>)` so a later audit can relocate it.
 
 > Machine-specific note (this fork): the global home on this machine is `E:\project\AI\harness-core\lessons.md`, governed by `E:\project\AI\harness-core\maintenance.md` §3; the layering rules live in `E:\project\AI\harness-core\layering.md`. Portable deployments should replace this note with their own locations.
+>
+> **Jurisdiction boundary (prevents dueling rulebooks):** this protocol governs *project KnowHow* inside superpowers-managed projects. The operator framework's own files (`harness-core\*.md`, the global `CLAUDE.md`) are **legislative-layer documents, not T2 KnowHow** — even though they load on demand. Any edit to them follows `harness-core\maintenance.md` (its A/B/C classes and §3 thresholds), and this protocol's gates and "T2 edits need no approval" clause do NOT apply to them. Conversely, `harness-core\lessons.md` is the operator-layer observation buffer (machine-scope analogue of T3); its promotion follows `maintenance.md` §3, not this protocol's three gates or routing-failure counts.
