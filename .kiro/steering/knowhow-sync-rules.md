@@ -7,6 +7,7 @@ inclusion: always
 ## Canonical
 
 - Skill: `skills/capturing-knowhow/SKILL.md`
+- Promotion rules (lesson → injected rule): `docs/knowhow-promotion-protocol.md`
 
 ## Why the steering file still exists
 
