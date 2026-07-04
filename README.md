@@ -276,6 +276,7 @@ flowchart TD
 
 **Collaboration & Planning** 
 - **authoring-roadmap** - Strategic Wave/Phase roadmap planning
+- **blind-spot-scan** - Pre-work scan for unknown unknowns before implementation gets expensive
 - **brainstorming** - Socratic design refinement to produce PRD
 - **writing-tasks** - Detailed implementation plans from specs
 - **executing-plans** - Batch execution with checkpoints
@@ -285,6 +286,7 @@ flowchart TD
 - **using-git-worktrees** - Parallel development branches
 - **finishing-a-development-branch** - Merge/PR decision workflow
 - **subagent-driven-development** - Fast iteration with two-stage review
+- **post-implementation-quiz** - Report + quiz gate so large changes are understood before merge
 - **next-session-handover** - Generate context-rich handovers for future sessions
 
 **Harness Engineering & Spec-Driven Development**

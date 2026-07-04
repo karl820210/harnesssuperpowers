@@ -128,6 +128,7 @@ Subagent (general-purpose):
       - GREEN: command run and relevant passing output after implementation
     - Files changed
     - Self-review findings (if any)
+    - Deviations: where an edge case forced you off the spec (conservative choice taken) and why — write "none" if none
     - Any issues or concerns
 
     Then report back with ONLY (under 15 lines — the detail lives in the

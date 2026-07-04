@@ -110,6 +110,7 @@ Before anything else, check if a Roadmap exists at `docs/superpowers/roadmap.md`
 - Propose 2-3 different approaches with trade-offs
 - Present options conversationally with your recommendation and reasoning
 - Lead with your recommended option and explain why
+- **When the user will only know it when they see it** (look-and-feel, UX, report layouts): don't describe — build 2-4 *deliberately divergent* throwaway variants (HTML mockup, sketch, sample output) and let them react. Divergence is the point; near-identical variants waste the round.
 
 **Presenting the design:**
 

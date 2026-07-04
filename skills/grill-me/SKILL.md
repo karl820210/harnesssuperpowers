@@ -7,4 +7,8 @@ Interview me relentlessly about every aspect of this plan until we reach a share
 
 Ask the questions one at a time.
 
+**Order questions by architectural impact:** ask first the questions whose answers would change the architecture or invalidate other decisions; leave cosmetic and isolated choices for last. A cheap ordering test: "if the answer surprised me, how much of the plan survives?" — the less survives, the earlier the question.
+
 If a question can be answered by exploring the codebase, explore the codebase instead.
+
+Pairs with `skills/blind-spot-scan/SKILL.md`: run a blind-spot scan first when the *questions themselves* are unknown (unfamiliar territory); grill-me resolves the questions once they are on the table.

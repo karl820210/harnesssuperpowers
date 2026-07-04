@@ -65,6 +65,8 @@ Or ask: "This branch split from main - is that correct?"
 
 ### Step 4: Present Options
 
+**Before presenting options**, if the change is large, touched unfamiliar domains, or the user delegated whole decisions: offer `skills/post-implementation-quiz/SKILL.md` as an understanding gate first (report + quiz; passing clears the merge).
+
 **Normal repo and named-branch worktree — present exactly these 4 options:**
 
 ```

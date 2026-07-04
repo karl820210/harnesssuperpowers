@@ -29,6 +29,7 @@ For each task:
 3. Run verifications as specified
 4. Mark as completed
 5. Update the plan file: change `- [ ]` to `- [x]` for completed steps using Edit tool
+6. If an edge case forces you off the plan: take the conservative path, record it under a `Deviations` heading in the task's `implementation-notes.md` (create if missing) at that moment, and continue — do not wait for session end (see `skills/capturing-knowhow/SKILL.md`, Moment of Surprise)
 
 ### Step 3: Complete Development
 
