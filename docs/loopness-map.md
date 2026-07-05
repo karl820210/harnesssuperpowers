@@ -11,7 +11,7 @@ flowchart TD
     B -->|E3: harvest| D["T2: KnowHow entry<br/>docs/superpowers/knowhow/&lt;area&gt;.md"]
     C -->|E3: harvest| D
     D -->|E4: index kept trigger-worded| E["T1: knowhow-map.md trigger line"]
-    D -->|E5: cross-layer routing| F["Workspace / global homes<br/>(this machine: harness-core lessons.md)"]
+    D -->|E5: cross-layer routing| F["Workspace / global homes<br/>(machine-local: HARNESS_CORE_ROOT\lessons.md, if installed)"]
     D -->|E6: promotion gates + user approval| G["T0: always-on steering / rules"]
     G -->|E7: injected every session| A2[Next session]
     E -->|E8: trigger matches → pull T2| A2
@@ -31,7 +31,7 @@ flowchart TD
 | E2 | Session end → reminder | Claude Code: `hooks/hooks.json` (Stop) → `hooks/capture-knowhow-reminder`; Cursor: `hooks/hooks-cursor.json` (stop) + `.cursor/rules/harnesssuperpowers-reminders.mdc` (§ Session-end reminder, fallback); Kiro: `.kiro/hooks/knowhow-sync.kiro.hook` (agentStop) + `.kiro/steering/knowhow-sync-rules.md` |
 | E3 | Notes → numbered T2 entry | `skills/capturing-knowhow/SKILL.md` (§ The Capture Procedure) |
 | E4 | Entry → trigger-worded index line | `skills/capturing-knowhow/SKILL.md` (§ The Map); `skills/bootstrapping-harness/templates/knowhow-map.md` |
-| E5 | Lesson → right layer's home | `skills/capturing-knowhow/SKILL.md` (Procedure step 0); `docs/knowhow-promotion-protocol.md` (§ Knowledge homes); this machine: `E:\project\AI\harness-core\lessons.md` + `maintenance.md` §3 |
+| E5 | Lesson → right layer's home | `skills/capturing-knowhow/SKILL.md` (Procedure step 0); `docs/knowhow-promotion-protocol.md` (§ Knowledge homes); machine-local (if the operator framework is installed): `{{HARNESS_CORE_ROOT}}\lessons.md` + `maintenance.md` §3 — resolve `{{...}}` via the local carrier (`local-machine.mdc` / `local-machine.md`, generated at install) |
 | E6 | Entry → always-on rule (gated) | `docs/knowhow-promotion-protocol.md` (§ Promotion gates) — targets: `.kiro/steering/*.md`, `.cursor/rules/*.mdc`, session-start-injected content |
 | E7 | Always-on → next session context | Claude Code: `hooks/hooks.json` (SessionStart) → `hooks/session-start`; Cursor: `hooks/hooks-cursor.json` (sessionStart) + `alwaysApply` rules; Kiro: `.kiro/steering/` (`inclusion: always`); parity governed by `docs/platform-consistency.md` |
 | E8 | Trigger line → on-demand pull of T2 | `docs/superpowers/knowhow-map.md` of the target project (trigger wording per E4) |
