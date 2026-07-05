@@ -27,7 +27,7 @@
 **Do NOT inject (standing decisions, 2026-07-05):**
 
 - **SessionStart full-text injection** (`session-start` cats all of `skills/using-superpowers/SKILL.md`, ~3.5KB, into every session): Claude Code already injects the skill list with descriptions into every session — that surface carries triggering. Revisit only on routing-failure evidence (`docs/knowhow-promotion-protocol.md`).
-- **PostToolUse `spec-sdd-check`**: its stdin path-extraction fails on Windows (python `select` on a pipe never becomes ready), so the built-in path filter degrades into reminding on EVERY edit. Do not wire it until the script is fixed. Cursor is unaffected (it reads `CURSOR_CHANGED_FILE` instead of stdin).
+- **PostToolUse `spec-sdd-check`**: excluded by default. The original blocker — Windows stdin path-extraction failing (python `select` on a pipe never becomes ready), degrading the filter into reminding on EVERY edit — was fixed 2026-07-05 (plain `cat` replaces the select probe; filter verified working: non-spec edits → `{}`, spec edits → reminder). Wiring it is now technically safe but remains **opt-in per the machine owner's always-on discipline**: when approved, add a PostToolUse hook (matcher `Edit|Write|MultiEdit`) via a wrapper, same pattern as the Stop hook.
 - **`.cursor/rules/*.mdc`**: Cursor-only carrier, meaningless to Claude Code.
 
 **Protect:** any `{{CLAUDE_HOME}}\skills\<name>` whose `<name>` is **not** a directory under this repo's `skills/` belongs to the user — never touch, overwrite, or delete it.

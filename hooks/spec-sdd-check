@@ -18,24 +18,17 @@ is_spec_path() {
 }
 
 # Try to extract a file path hint from env / stdin.
-# Cursor provides env vars such as CURSOR_CHANGED_FILE.
-# Claude Code provides tool-use info via stdin JSON.
-# If we cannot determine a path we fall through to emitting a reminder anyway
-# (safe — just a hint; rare on real runs because both IDEs supply context).
+# Cursor provides env vars such as CURSOR_CHANGED_FILE and never reaches the
+# stdin read below (so its "open-but-empty stdin" quirk cannot block us here).
+# Claude Code — and stdin-JSON runners generally — pipe the hook event JSON
+# and close stdin, so a plain `cat` cannot block.
+# (Previously a python select() probe guarded this read; on Windows select()
+# only supports sockets, so it always failed on the pipe, the path was never
+# extracted, and the filter below degraded into reminding on every edit.)
 changed_file="${CURSOR_CHANGED_FILE:-}"
 if [ -z "$changed_file" ] && [ ! -t 0 ]; then
-    # stdin has piped data — best-effort extract first file_path from JSON.
     # Use sed -n with a print flag so no-match exits 0 (safe under pipefail).
-    # NOTE: Some runners (Cursor hooks) provide a non-tty stdin that may be empty
-    # but not closed; `cat` would block forever. Only read when data is available.
-    stdin_data=$(
-        python - <<'PY' 2>/dev/null || true
-import sys, select
-ready, _, _ = select.select([sys.stdin], [], [], 0)
-if ready:
-    sys.stdout.write(sys.stdin.read())
-PY
-    )
+    stdin_data=$(cat 2>/dev/null || true)
     changed_file=$(printf '%s' "$stdin_data" | sed -nE 's/.*"file_path"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p' | head -n1)
 fi
 
