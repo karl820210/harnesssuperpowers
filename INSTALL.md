@@ -23,11 +23,12 @@
 | skills | `skills/*` → `{{CLAUDE_HOME}}\skills\` | full directory copies (references/, scripts/, templates/ included), then reference rewriting (§3) |
 | commands | `commands/*.md` → `{{CLAUDE_HOME}}\commands\` | currently `capture-knowhow`, `scan-spec` |
 | Stop hook | `hooks/capture-knowhow-reminder`, wired via a small wrapper script + `settings.json` | Loopness edge E2. The wrapper sets `CLAUDE_PLUGIN_ROOT` so the script emits the Claude Code envelope; wire it `async` like the plugin's own hooks.json does |
+| PostToolUse hook | `hooks/spec-sdd-check`, wired via wrapper + `settings.json` (matcher `Edit\|Write\|MultiEdit`, sync) | Spec-edit reminder to run spec-scan; the script self-filters to `specs/*/{prd,sysdesign,tasks}.md` paths. Requires the 2026-07-05 Windows stdin fix; wiring is opt-in and was approved by the machine owner 2026-07-05 |
 
 **Do NOT inject (standing decisions, 2026-07-05):**
 
 - **SessionStart full-text injection** (`session-start` cats all of `skills/using-superpowers/SKILL.md`, ~3.5KB, into every session): Claude Code already injects the skill list with descriptions into every session — that surface carries triggering. Revisit only on routing-failure evidence (`docs/knowhow-promotion-protocol.md`).
-- **PostToolUse `spec-sdd-check`**: excluded by default. The original blocker — Windows stdin path-extraction failing (python `select` on a pipe never becomes ready), degrading the filter into reminding on EVERY edit — was fixed 2026-07-05 (plain `cat` replaces the select probe; filter verified working: non-spec edits → `{}`, spec edits → reminder). Wiring it is now technically safe but remains **opt-in per the machine owner's always-on discipline**: when approved, add a PostToolUse hook (matcher `Edit|Write|MultiEdit`) via a wrapper, same pattern as the Stop hook.
+- **PostToolUse `spec-sdd-check` on machines without the owner's opt-in**: the hook is technically safe since the 2026-07-05 Windows stdin fix (plain `cat` replaced a python `select` probe that broke the path filter on Windows), but wiring any always-on surface stays an explicit owner decision — default installs skip it and rely on on-demand `/scan-spec`.
 - **`.cursor/rules/*.mdc`**: Cursor-only carrier, meaningless to Claude Code.
 
 **Protect:** any `{{CLAUDE_HOME}}\skills\<name>` whose `<name>` is **not** a directory under this repo's `skills/` belongs to the user — never touch, overwrite, or delete it.
