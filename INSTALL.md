@@ -8,7 +8,7 @@
 
 | Platform | Mode | Mechanism |
 |---|---|---|
-| Cursor | in place | `.cursor-plugin/plugin.json` (skills/commands/hooks) + `.cursor/rules/*.mdc` by directory convention. No install step. Caveat: if the clone lives in Cursor's plugin cache, Cursor owns that path — keep a pushed remote and/or bundle backup. |
+| Cursor | in place | `.cursor-plugin/plugin.json` (skills/commands/hooks) + `.cursor/rules/*.mdc` by directory convention. No install step. Caveat: if the clone lives in Cursor's plugin cache, Cursor owns that path and a cache rebuild wipes it — keep a pushed remote **and** the out-of-cache backup clone; recovery steps in §2.5. |
 | Claude Code | **direct injection** (§2) | copies into `{{CLAUDE_HOME}}`; no marketplace involved |
 | Kiro | in place + seeding | `.kiro/` applies when a Kiro session opens this repo; per-project seeding via `skills/bootstrapping-harness` |
 
@@ -22,8 +22,8 @@
 |---|---|---|
 | skills | `skills/*` → `{{CLAUDE_HOME}}\skills\` | full directory copies (references/, scripts/, templates/ included), then reference rewriting (§3) |
 | commands | `commands/*.md` → `{{CLAUDE_HOME}}\commands\` | currently `capture-knowhow`, `scan-spec` |
-| Stop hook | `hooks/capture-knowhow-reminder`, wired via a small wrapper script + `settings.json` | Loopness edge E2. The wrapper sets `CLAUDE_PLUGIN_ROOT` so the script emits the Claude Code envelope; wire it `async` like the plugin's own hooks.json does |
-| PostToolUse hook | `hooks/spec-sdd-check`, wired via wrapper + `settings.json` (matcher `Edit\|Write\|MultiEdit`, sync) | Spec-edit reminder to run spec-scan; the script self-filters to `specs/*/{prd,sysdesign,tasks}.md` paths. Requires the 2026-07-05 Windows stdin fix; wiring is opt-in and was approved by the machine owner 2026-07-05 |
+| Stop hook | `hooks/capture-knowhow-reminder`, wired via a small wrapper script + `settings.json` | Loopness edge E2. The wrapper sets `CLAUDE_PLUGIN_ROOT` so the script emits the Claude Code envelope; wire it `async` like the plugin's own hooks.json does. Point `CLAUDE_PLUGIN_ROOT` at the out-of-cache backup clone (§2.5), NOT the Cursor plugin cache |
+| PostToolUse hook | `hooks/spec-sdd-check`, wired via wrapper + `settings.json` (matcher `Edit\|Write\|MultiEdit`, sync) | Spec-edit reminder to run spec-scan; the script self-filters to `specs/*/{prd,sysdesign,tasks}.md` paths. Requires the 2026-07-05 Windows stdin fix; wiring is opt-in and was approved by the machine owner 2026-07-05. Wrapper likewise points at the backup clone (§2.5) |
 
 **Do NOT inject (standing decisions, 2026-07-05):**
 
@@ -32,6 +32,22 @@
 - **`.cursor/rules/*.mdc`**: Cursor-only carrier, meaningless to Claude Code.
 
 **Protect:** any `{{CLAUDE_HOME}}\skills\<name>` whose `<name>` is **not** a directory under this repo's `skills/` belongs to the user — never touch, overwrite, or delete it.
+
+## 2.5 Hook-script source of truth & cache-loss recovery
+
+When this clone lives inside Cursor's plugin cache (§1 caveat), the machine keeps an **out-of-cache backup clone** — real path recorded in the §4 manifest. The backup clone holds:
+
+- branch `feat/harness`, fetched from this clone: the full fork lineage, including this file;
+- the two CC hook scripts (`hooks/capture-knowhow-reminder`, `hooks/spec-sdd-check`) also committed on its `main`, giving the Claude Code wrappers a stable `CLAUDE_PLUGIN_ROOT` target Cursor can never wipe.
+
+**Editing order for the hook scripts:** commit in the fork lineage (`feat/harness`) first, then sync the derived copies in the same change — backup-clone `main` and, if this clone is not the cache copy, the cache copy. Never edit only the cache copy: uncommitted cache-only edits are exactly what a cache rebuild destroys (the 2026-07-05 wording fix sat uncommitted this way before being rescued).
+
+**If Cursor rebuilds the cache** (the versioned path reverts to vanilla upstream — fork skills, hook scripts, and the hooks.json/hooks-cursor.json wiring all disappear from Cursor):
+
+1. Restore the fork into the cache path: re-clone from the backup clone (or the pushed remote) and check out `feat/harness` at that path.
+2. Claude Code hooks are unaffected throughout — the wrappers point at the backup clone, not the cache.
+3. If the restored clone later advances, re-fetch `feat/harness` into the backup clone so the out-of-cache lineage stays current.
+4. Deliberately-untracked content in the cache (e.g. `projects/`) is NOT recoverable from git — keep a separate backup outside the cache.
 
 ## 3. Reference rewriting (applies to the injected copies only; clone files stay untouched)
 
@@ -53,6 +69,7 @@ Date: YYYY-MM-DD
 Injected: <N> skills, <M> commands, Stop hook (wrapper path)
 Excluded: SessionStart, PostToolUse spec-sdd-check, rules (INSTALL.md §2)
 Rewrites: <rules applied, per §3>
+Backup-clone: <out-of-cache clone path> (feat/harness lineage; hook scripts on main; wrappers' CLAUDE_PLUGIN_ROOT target, per §2.5)
 ```
 
 This is the consumer-side handshake (mirror of harness-core INSTALL.md §4). Drift check: manifest commit far behind clone HEAD → re-run §2–§3.
@@ -68,6 +85,7 @@ After the clone changes (pull or local commits): re-run §2–§3 and refresh th
 3. User-owned skills are untouched.
 4. Stop-hook wrapper dry-run emits the `hookSpecificOutput` envelope with the capture-knowhow reminder.
 5. Manifest's commit equals the clone's HEAD.
+6. Both wrappers' `CLAUDE_PLUGIN_ROOT` points at the out-of-cache backup clone (§2.5), and `hooks/run-hook.cmd`, `hooks/capture-knowhow-reminder`, `hooks/spec-sdd-check` all exist under it.
 
 ## 7. Relation to harness-core INSTALL.md
 
