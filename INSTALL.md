@@ -1,6 +1,6 @@
 # INSTALL.md — Installing this fork onto a machine (direct injection, no marketplace)
 
-> **Who reads this, when:** an AI session installing or updating this fork's capabilities on a machine — especially the Claude Code direct-injection path (§2–§5). Cursor and Kiro consume this repo in place (§1). The operator framework (harness-core) has its own INSTALL.md; §7 explains how the two relate.
+> **Who reads this, when:** an AI session installing or updating this fork's capabilities on a machine — Claude Code and Cursor both consume via direct injection (§2–§5); Kiro consumes this repo in place (§1). The operator framework (harness-core) has its own INSTALL.md; §7 explains how the two relate. This file satisfies the module contract (`{{HARNESS_CORE_ROOT}}\module-contract.md`); machine registry: `{{HARNESS_CORE_ROOT}}\harness-modules.md`.
 
 ## 1. Roles and per-platform consumption
 
@@ -8,7 +8,7 @@
 
 | Platform | Mode | Mechanism |
 |---|---|---|
-| Cursor | in place (import clone) | `.cursor-plugin/plugin.json` (skills/commands/hooks) + `.cursor/rules/*.mdc` by directory convention. No install step. The cache-resident copy is a platform import clone (§2.5): update it with `git pull --ff-only` only. Cursor owns that path and a cache rebuild wipes it — recovery steps in §2.5. |
+| Cursor | **direct injection** (§2) — same model as Claude Code (2026-07-05 decision) | skills copied into `{{CURSOR_HOME}}\skills\` with §3 rewrites targeting that root; manifest at `{{CURSOR_HOME}}\superpowers-injection.md`. The former plugin-cache import clone is RETIRED on this machine (§2.5). Commands/hooks carriage on Cursor is an OPEN ITEM — until resolved, Cursor receives skills only. |
 | Claude Code | **direct injection** (§2) | copies into `{{CLAUDE_HOME}}`; no marketplace involved |
 | Kiro | in place + seeding | `.kiro/` applies when a Kiro session opens this repo; per-project seeding via `skills/bootstrapping-harness` |
 
@@ -20,7 +20,7 @@
 
 | What | From → To | Note |
 |---|---|---|
-| skills | `skills/*` → `{{CLAUDE_HOME}}\skills\` | full directory copies (references/, scripts/, templates/ included), then reference rewriting (§3) |
+| skills | `skills/*` → `{{CLAUDE_HOME}}\skills\` and `{{CURSOR_HOME}}\skills\` | full directory copies (references/, scripts/, templates/ included), then reference rewriting (§3) per target root |
 | commands | `commands/*.md` → `{{CLAUDE_HOME}}\commands\` | currently `capture-knowhow`, `scan-spec` |
 | Stop hook | `hooks/capture-knowhow-reminder`, wired via a small wrapper script + `settings.json` | Loopness edge E2. The wrapper sets `CLAUDE_PLUGIN_ROOT` so the script emits the Claude Code envelope; wire it `async` like the plugin's own hooks.json does. Point `CLAUDE_PLUGIN_ROOT` at the primary development clone (§2.5), NOT the Cursor plugin cache |
 | PostToolUse hook | `hooks/spec-sdd-check`, wired via wrapper + `settings.json` (matcher `Edit\|Write\|MultiEdit`, sync) | Spec-edit reminder to run spec-scan; the script self-filters to `specs/*/{prd,sysdesign,tasks}.md` paths. Requires the 2026-07-05 Windows stdin fix; wiring is opt-in and was approved by the machine owner 2026-07-05. Wrapper likewise points at the primary clone (§2.5) |
@@ -30,6 +30,7 @@
 - **SessionStart full-text injection** (`session-start` cats all of `skills/using-superpowers/SKILL.md`, ~3.5KB, into every session): Claude Code already injects the skill list with descriptions into every session — that surface carries triggering. Revisit only on routing-failure evidence (`docs/knowhow-promotion-protocol.md`).
 - **PostToolUse `spec-sdd-check` on machines without the owner's opt-in**: the hook is technically safe since the 2026-07-05 Windows stdin fix (plain `cat` replaced a python `select` probe that broke the path filter on Windows), but wiring any always-on surface stays an explicit owner decision — default installs skip it and rely on on-demand `/scan-spec`.
 - **`.cursor/rules/*.mdc`**: Cursor-only carrier, meaningless to Claude Code.
+- **Project-level `.cursor\skills` copies**: deprecated 2026-07-05 — per-project copies drift and can shadow fresher global copies (this is how the port-fish four-copy incident happened). Per-project deployment happens only as an explicit target in a module's INSTALL targets table plus the machine registry. Server's legacy copies were backed up and removed on 2026-07-05.
 
 **Protect:** any `{{CLAUDE_HOME}}\skills\<name>` whose `<name>` is **not** a directory under this repo's `skills/` belongs to the user — never touch, overwrite, or delete it.
 
@@ -41,15 +42,11 @@ Development happens in exactly one place: the **primary development clone** (rea
 
 1. Commit in the primary clone on `feat/harness`.
 2. Push to the fork remote (`origin`).
-3. Update each platform import clone with `git pull --ff-only`.
+3. Re-run §2–§3 injection for every injection root on this machine (`{{CLAUDE_HOME}}`, `{{CURSOR_HOME}}`) and refresh each manifest (§4). Import clones on *other* machines update with `git pull --ff-only`.
 
 Claude Code never depends on a platform-owned path: the §2 wrappers point `CLAUDE_PLUGIN_ROOT` at the primary clone, and §2–§3 injection runs from the primary clone.
 
-**If Cursor rebuilds the cache** (the versioned path reverts to vanilla upstream — fork skills, hook scripts, and the hooks.json/hooks-cursor.json wiring all disappear from Cursor):
-
-1. Re-clone the fork at the cache path from the fork remote (or the primary clone) and check out `feat/harness`.
-2. Claude Code hooks are unaffected throughout — the wrappers point at the primary clone, not the cache.
-3. Deliberately-untracked content (e.g. `projects/`) is NOT recoverable from git — keep it in the primary clone, not (only) in the cache.
+**Cursor plugin cache: RETIRED on this machine (2026-07-05).** The cache-resident clone (`{{CURSOR_HOME}}\plugins\cache\cursor-public\superpowers\...`) is no longer a consumption path — Cursor consumes injected skills from `{{CURSOR_HOME}}\skills\`. The plugin should be disabled in Cursor's UI to avoid double-loading (user action). The cache path and its `superpowers-main` worktree are ignorable and may be wiped by Cursor at any time; nothing depends on them. Deliberately-untracked content (e.g. `projects/`) lives in the primary clone only.
 
 ## 3. Reference rewriting (applies to the injected copies only; clone files stay untouched)
 
@@ -58,12 +55,12 @@ Injected files reference repo-root-relative paths that do not resolve from `{{CL
 1. **Repo-level docs** — exact strings, rewritten to the clone's absolute path:
    - `docs/knowhow-promotion-protocol.md` → `<clone>\docs\knowhow-promotion-protocol.md`
    - (extend this list when new repo-level docs gain skill references)
-2. **Cross-skill references** — `skills/<name>/...` → `{{CLAUDE_HOME}}\skills\<name>\...` (absolute).
+2. **Cross-skill references** — `skills/<name>/...` → `<target root>\skills\<name>\...` (absolute; `{{CLAUDE_HOME}}\skills\` for the Claude root, `{{CURSOR_HOME}}\skills\` for the Cursor root). Do NOT rewrite occurrences already prefixed with a path separator or dot (e.g. `.cursor/skills/...`, `.kiro/skills/...`) — those are examples/target-project paths.
 3. **Never rewrite** `docs/superpowers/...`, `${WORKSPACE_ROOT}/...`, or `.kiro/...` — those are target-project paths resolved at use time, not repo paths.
 
 ## 4. Handshake manifest
 
-After injection, write `{{CLAUDE_HOME}}\superpowers-injection.md`:
+After injection, write one manifest per injection root — `{{CLAUDE_HOME}}\superpowers-injection.md` and `{{CURSOR_HOME}}\superpowers-injection.md`:
 
 ```
 Injected-from: <clone path> @ <clone HEAD commit>
@@ -74,19 +71,21 @@ Rewrites: <rules applied, per §3>
 Primary-clone: <primary development clone path> (feat/harness; wrappers' CLAUDE_PLUGIN_ROOT target; all development happens here, per §2.5)
 ```
 
+Additionally append a fenced ```json block — `{"module","ssot","commit","root","files":{"<relpath>":"<sha256>"}}` — covering every injected file *after* rewrites, so `verify-modules` can mechanically detect local edits (module-contract §1.3).
+
 This is the consumer-side handshake (mirror of harness-core INSTALL.md §4). Drift check: manifest commit far behind clone HEAD → re-run §2–§3.
 
 ## 5. Updating
 
-After the primary clone changes (pull or local commits): re-run §2–§3 and refresh the manifest. The operation is idempotent — repo-sourced skill directories are fully replaced (stale files removed), rewrites re-applied, user-owned skills untouched.
+After the primary clone changes (pull or local commits): re-run §2–§3 for **every injection root** and refresh each manifest. The operation is idempotent — repo-sourced skill directories are fully replaced (stale files removed), rewrites re-applied, user-owned skills untouched.
 
 ## 6. Verification (fresh-context agent, report pass/fail per item)
 
-1. Every repo-sourced skill dir under `{{CLAUDE_HOME}}\skills` differs from the clone only by §3 rewrites.
+1. Every repo-sourced skill dir under each injection root (`{{CLAUDE_HOME}}\skills`, `{{CURSOR_HOME}}\skills`) differs from the clone only by §3 rewrites.
 2. Every rewritten path resolves on disk.
-3. User-owned skills are untouched.
+3. User-owned skills are untouched (both roots).
 4. Stop-hook wrapper dry-run emits the `hookSpecificOutput` envelope with the capture-knowhow reminder.
-5. Manifest's commit equals the clone's HEAD.
+5. Each root's manifest commit equals the clone's HEAD, and its `files` hash block matches the deployed bytes.
 6. Both wrappers' `CLAUDE_PLUGIN_ROOT` points at the primary development clone (§2.5), and `hooks/run-hook.cmd`, `hooks/capture-knowhow-reminder`, `hooks/spec-sdd-check` all exist under it.
 
 ## 7. Relation to harness-core INSTALL.md
