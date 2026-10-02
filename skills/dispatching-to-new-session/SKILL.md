@@ -29,7 +29,7 @@ Check the handover folder and the job's intended output paths for an existing ca
 
 **Location:** the project's handover folder (superpowers projects: `docs/superpowers/handover/`), filename `YYYY-MM-DD-dispatch-<topic>.md`. Shares the folder's Consumed-by lifecycle with `next-session-handover`.
 
-**Language:** the project's output-language convention; else the conversation language.
+**Language:** everything this skill produces for the new session or the user — the card, the standby prompt, the launch prompt, your reply — is written in the project's output-language convention; else the conversation language. Only two literal tokens stay exactly as written: `standby ready` (the report-back keyword) and `開工` (the user's start word).
 
 **Required slots, in this order** — every slot present, none merged away:
 
@@ -62,7 +62,14 @@ Every path in the card is absolute. If the card or the files it references are u
 **A. Session chip — when `spawn_task` and session-management tools are available.** A model/effort switch applies only from the target's *next* turn, so the new session's first turn must be cheap. Starting a chip does **not** wake this session (no notification turn arrives), and a chip spawned from a fork is filed under the fork's origin session (`parentSessionId` points there), so the new session must report back itself:
 
 1. Get this session's id: `get_session` with `"self"` → `sessionId`.
-2. `spawn_task` with a **standby prompt** containing: "Do not start the job yet. First send one message to session `<this sessionId>` with `send_message` (load it via ToolSearch if deferred), text: `standby ready`. Then reply one line that you are ready and wait. The job is the card at `<absolute path>`; start when a launch message arrives or the user says 開工 — whichever comes first; if a launch message arrives after you already started, reply that the job is running and do not restart." Do not put the job itself in the chip prompt.
+2. `spawn_task` with a **standby prompt**, written in the card's language, that contains each of these elements:
+   - do not start the job yet;
+   - first send one message with `send_message` (load it via ToolSearch if deferred) to session `<this sessionId>`, text exactly `standby ready`;
+   - then reply one line that it is ready and wait;
+   - the job is the card at `<absolute path>`;
+   - start when a launch message arrives or the user says `開工`, whichever comes first; if a launch message arrives after it already started, reply that the job is running and do not restart.
+
+   Do not put the job itself in the chip prompt.
 3. Your turn ends. The new session's message wakes this session as a new turn; its sender session id is in the message header — use that id (not a `parentSessionId` lookup).
 4. If that session's `model` / `effort` (`get_session`) differ from the recommendation, call `set_session_model` / `set_session_effort` on it. Moving to a more expensive model may ask the user to approve; if the user declines, launch on its current model and say so.
 5. Send the launch prompt with `send_message` (session id = that `local_…` id). Delivery is confirmed when the result says `delivered` or `queued`.
