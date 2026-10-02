@@ -50,7 +50,7 @@ Every path in the card is absolute. If the card or the files it references are u
 |---|---|---|
 | Analysis / investigation | file return | report + evidence absolute paths; `Result:` line on finish |
 | Implementation | git result + file return | branch, commit rules, STOP before commit/push; `Result:` carries commit hashes |
-| Long-running, this session must react when done | `cross-session-comm` (if available) **plus** `Result:` line | this session's title for addressing; the message to send |
+| Long-running, this session must react when done | `cross-session-comm` (if available) **plus** `Result:` line | this session's sessionId (`get_session` `"self"`) for addressing — titles can collide after a fork; the message to send |
 | Deliverable for the user, no follow-up here | file return to user | output paths; `Result:` optional |
 
 ## Launching (do both)
@@ -59,14 +59,15 @@ Every path in the card is absolute. If the card or the files it references are u
 
 **Model + effort:** user-specified wins; otherwise recommend by job (judgment/analysis → Opus high; bulk mechanical scanning → Sonnet). State it in the card header and in your reply.
 
-**A. Session chip — when `spawn_task` and session-management tools are available.** A model/effort switch applies only from the target's *next* turn, so the new session's first turn must be cheap:
+**A. Session chip — when `spawn_task` and session-management tools are available.** A model/effort switch applies only from the target's *next* turn, so the new session's first turn must be cheap. Starting a chip does **not** wake this session (no notification turn arrives), and a chip spawned from a fork is filed under the fork's origin session (`parentSessionId` points there), so the new session must report back itself:
 
-1. `spawn_task` with a **standby prompt**: "reply one line that you are ready and wait; the job is the card at `<absolute path>`; start when a launch message arrives or the user says 開工". Do not put the job itself in the chip prompt.
-2. When notified that the user started the chip, find its session id (`list_sessions` / `get_session`: the new row whose `parentSessionId` is this session).
-3. If its `model` / `effort` differ from the recommendation, call `set_session_model` / `set_session_effort` on it. Moving to a more expensive model may ask the user to approve.
-4. Send the launch prompt to it (`SendMessage` to its `local_…` id, or `send_message`). Confirm delivery.
+1. Get this session's id: `get_session` with `"self"` → `sessionId`.
+2. `spawn_task` with a **standby prompt** containing: "Do not start the job yet. First send one message to session `<this sessionId>` with `send_message` (load it via ToolSearch if deferred), text: `standby ready`. Then reply one line that you are ready and wait. The job is the card at `<absolute path>`; start when a launch message arrives or the user says 開工 — whichever comes first; if a launch message arrives after you already started, reply that the job is running and do not restart." Do not put the job itself in the chip prompt.
+3. Your turn ends. The new session's message wakes this session as a new turn; its sender session id is in the message header — use that id (not a `parentSessionId` lookup).
+4. If that session's `model` / `effort` (`get_session`) differ from the recommendation, call `set_session_model` / `set_session_effort` on it. Moving to a more expensive model may ask the user to approve; if the user declines, launch on its current model and say so.
+5. Send the launch prompt with `send_message` (session id = that `local_…` id). Delivery is confirmed when the result says `delivered` or `queued`.
 
-If this session is gone when the chip starts, the new session stays on standby until the user tells it to start — that is expected; the card is intact.
+Tell the user in your reply: click the chip to open the session; after that nothing more is needed; if no launch follows (this session closed), they can tell the new session 開工 — it then runs on its current model.
 
 **B. Always** print the launch prompt in a fenced block, with the recommended model + effort, so the user can open a session elsewhere (terminal, Cursor, another app) and paste it.
 
@@ -77,7 +78,8 @@ If this session is gone when the chip starts, the new session stays on standby u
 - [ ] Return method chosen and written; `Result:` rule in the header
 - [ ] All paths absolute; worktree note if anything is untracked
 - [ ] Model + effort in the card header and in the reply
-- [ ] Chip created with a standby prompt (if available) **and** launch prompt printed
-- [ ] After the chip starts: model/effort set to the recommendation, launch prompt delivered
+- [ ] Chip created with a standby prompt that includes this session's id and the report-back instruction (if available) **and** launch prompt printed
 
 Any box unchecked → do not dispatch yet.
+
+**After the new session reports back:** model/effort set to the recommendation (or the user's refusal reported), launch prompt delivered.
